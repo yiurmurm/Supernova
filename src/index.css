@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-ink: #0B0A10;
+    --bg-surface: #161521;
+    --halftone-gray: #2A2938;
+    --comic-gold: #F59E0B;
+    --cyber-magenta: #FF0055;
+    --radioactive-purple: #8B5CF6;
+    --hero-cyan: #00F0FF;
+    --villain-crimson: #FF0033;
+    --accent-primary: #00F0FF;
+    --accent-secondary: #FF0055;
+    --accent-glow: rgba(0, 240, 255, 0.4);
+    --power-surge: 50;
+  }
+
+  .villain-mode {
+    --accent-primary: #FF0033;
+    --accent-secondary: #8B5CF6;
+    --accent-glow: rgba(255, 0, 51, 0.4);
+  }
+
+  body {
+    background-color: var(--bg-ink);
+    color: #FFFFFF;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Bangers', cursive, sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  .font-heading {
+    font-family: 'Syne', sans-serif;
+  }
+
+  .font-mono-code {
+    font-family: 'Space Mono', monospace;
+  }
+}
+
+/* Comic ink box shadow */
+.comic-box {
+  box-shadow: 4px 4px 0px #000000, 6px 6px 0px var(--accent-primary);
+  border: 2px solid #000000;
+  transition: all 0.15s ease-out;
+}
+
+.comic-box:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000, 8px 8px 0px var(--accent-primary);
+}
+
+.comic-box-magenta {
+  box-shadow: 4px 4px 0px #000000, 6px 6px 0px #FF0055;
+  border: 2px solid #000000;
+  transition: all 0.15s ease-out;
+}
+
+.comic-box-magenta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000, 8px 8px 0px #FF0055;
+}
+
+.comic-box-gold {
+  box-shadow: 4px 4px 0px #000000, 6px 6px 0px #F59E0B;
+  border: 2px solid #000000;
+  transition: all 0.15s ease-out;
+}
+
+.comic-box-gold:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000, 8px 8px 0px #F59E0B;
+}
+
+/* Halftone Pattern Background */
+.halftone-bg {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+}
+
+.halftone-accent {
+  background-image: radial-gradient(circle, rgba(0, 240, 255, 0.12) 1.5px, transparent 1.5px);
+  background-size: 14px 14px;
+}
+
+/* Manga Screentone Texture */
+.manga-screentone {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(255, 255, 255, 0.02) 4px,
+    rgba(255, 255, 255, 0.02) 8px
+  );
+}
+
+/* Comic speed line divider */
+.speed-lines {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 240, 255, 0.3) 25%, 
+    rgba(255, 0, 85, 0.5) 50%, 
+    rgba(0, 240, 255, 0.3) 75%, 
+    transparent 100%
+  );
+  height: 2px;
+}
+
+/* Holographic card shimmer effect */
+@keyframes holoShimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.holo-card-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 85, 0.15) 0%,
+    rgba(0, 240, 255, 0.25) 25%,
+    rgba(255, 215, 0, 0.2) 50%,
+    rgba(139, 92, 246, 0.25) 75%,
+    rgba(255, 0, 85, 0.15) 100%
+  );
+  background-size: 300% 300%;
+  mix-blend-mode: color-dodge;
+  pointer-events: none;
+}
+
+/* Comic sound effect pop */
+@keyframes comicPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-10deg);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.15) rotate(5deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2) translateY(-25px);
+  }
+}
+
+.animate-comic-pop {
+  animation: comicPop 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+}
+
+/* Custom crosshair cursor styling */
+.comic-cursor-active {
+  cursor: crosshair;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0A10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A2938;
+  border-radius: 4px;
+  border: 1px solid #00F0FF;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00F0FF;
+}

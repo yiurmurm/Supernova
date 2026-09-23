@@ -1,0 +1,6 @@
+{
+  "name": "SUPRANOVA — Fictional Superpower Marketplace",
+  "description": "Unlock the impossible with SUPRANOVA: everyday magic, bottled, worn, and summoned in a dark, high-octane comic universe.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
