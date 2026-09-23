@@ -33,9 +33,10 @@ export const CursorParticles: React.FC = () => {
     handleResize();
     window.addEventListener('resize', handleResize);
 
+    // Classic Pop Comic Palette
     const colors = user.mode === 'villain' 
-      ? ['#FF0033', '#8B5CF6', '#FF0055', '#FFFFFF'] 
-      : ['#00F0FF', '#F59E0B', '#A855F7', '#FFFFFF'];
+      ? ['#FF2A2A', '#8B00FF', '#000000', '#FF7700'] 
+      : ['#FF2A2A', '#FFE600', '#0066FF', '#000000'];
 
     const handleMouseMove = (e: MouseEvent) => {
       const prevX = mouseRef.current.x;
@@ -43,17 +44,17 @@ export const CursorParticles: React.FC = () => {
       mouseRef.current = { x: e.clientX, y: e.clientY, prevX, prevY };
 
       const dist = Math.hypot(e.clientX - prevX, e.clientY - prevY);
-      // Spawn subtle sparkling stars when moving
-      if (dist > 3 && particlesRef.current.length < 40) {
-        const count = Math.min(2, Math.floor(dist / 8) + 1);
+      // Spawn subtle retro comic stars
+      if (dist > 4 && particlesRef.current.length < 35) {
+        const count = Math.min(2, Math.floor(dist / 9) + 1);
         for (let i = 0; i < count; i++) {
           particlesRef.current.push({
             x: e.clientX + (Math.random() * 12 - 6),
             y: e.clientY + (Math.random() * 12 - 6),
             vx: (Math.random() - 0.5) * 1.2,
-            vy: (Math.random() - 0.5) * 1.2 - 0.4,
-            size: Math.random() * 2.5 + 1.2,
-            alpha: 0.85,
+            vy: (Math.random() - 0.5) * 1.2 - 0.3,
+            size: Math.random() * 3 + 1.5,
+            alpha: 0.9,
             rotation: Math.random() * Math.PI,
             color: colors[Math.floor(Math.random() * colors.length)]
           });
@@ -63,7 +64,7 @@ export const CursorParticles: React.FC = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Draw 4-point sparkling star
+    // Draw 4-point comic star
     const drawStar = (c: CanvasRenderingContext2D, cx: number, cy: number, spikes: number, outerRadius: number, innerRadius: number) => {
       let rot = (Math.PI / 2) * 3;
       let x = cx;
@@ -86,6 +87,9 @@ export const CursorParticles: React.FC = () => {
       c.lineTo(cx, cy - outerRadius);
       c.closePath();
       c.fill();
+      c.lineWidth = 1;
+      c.strokeStyle = '#000000';
+      c.stroke();
     };
 
     const render = () => {
@@ -95,7 +99,7 @@ export const CursorParticles: React.FC = () => {
         const p = particlesRef.current[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.alpha -= 0.022; // smooth fade
+        p.alpha -= 0.024;
         p.rotation += 0.05;
 
         if (p.alpha <= 0) {
@@ -104,11 +108,11 @@ export const CursorParticles: React.FC = () => {
         }
 
         ctx.save();
-        ctx.globalAlpha = p.alpha;
+        ctx.globalAlpha = Math.max(0, p.alpha);
         ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 6;
-        drawStar(ctx, p.x, p.y, 4, p.size * 2, p.size * 0.7);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        drawStar(ctx, 0, 0, 4, p.size * 2, p.size);
         ctx.restore();
       }
 
@@ -130,7 +134,6 @@ export const CursorParticles: React.FC = () => {
       <canvas
         ref={canvasRef}
         className="pointer-events-none fixed inset-0 z-50 transition-opacity duration-300"
-        style={{ mixBlendMode: 'screen' }}
       />
 
       {/* Onomatopoeia Comic Popups */}
@@ -146,12 +149,11 @@ export const CursorParticles: React.FC = () => {
             }}
           >
             <div
-              className="px-3 py-1 font-display text-xl uppercase tracking-wider text-black drop-shadow-[2px_2px_0px_#FFFFFF]"
+              className="px-3.5 py-1.5 font-display text-2xl uppercase tracking-wider text-black rotate-[-3deg]"
               style={{
-                backgroundColor: item.color || '#00F0FF',
-                clipPath: 'polygon(0% 15%, 15% 0%, 85% 0%, 100% 20%, 95% 85%, 80% 100%, 15% 95%, 0% 80%)',
-                border: '2px solid black',
-                boxShadow: '3px 3px 0px #000000'
+                backgroundColor: item.color || '#FFE600',
+                border: '3px solid #000000',
+                boxShadow: '4px 4px 0px #000000'
               }}
             >
               {item.text}

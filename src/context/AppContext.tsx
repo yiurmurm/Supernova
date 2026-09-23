@@ -1,6 +1,65 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Product, CartItem, UserProfile, Order, SupportTicket, OnomatopoeiaEvent } from '../types';
+import { Product, CartItem, UserProfile, Order, SupportTicket, OnomatopoeiaEvent, MascotCompanion } from '../types';
 import { PRODUCTS } from '../data/products';
+
+export const MASCOT_COMPANIONS: MascotCompanion[] = [
+  {
+    id: 'pip',
+    name: 'Pip the Glow Moth',
+    title: 'Ambient Luminescence Familiar',
+    species: 'Gentle Bio-Moth',
+    avatarEmoji: '🦋',
+    perk: 'Eats static electricity & glows softly at night',
+    greeting: 'Flutter flutter! Ready to find a cozy power?',
+    tips: [
+      'Pip says: Try this pendant for calm focus!',
+      'Pip whispers: Serums are sweetest when stirred clockwise.',
+      'Pip notes: Night eyewear filters harsh glare into warm amber!'
+    ]
+  },
+  {
+    id: 'barnaby',
+    name: 'Barnaby Chrono-Hamster',
+    title: 'Junior Temporal Assistant',
+    species: 'Clockwork Rodent',
+    avatarEmoji: '🐹',
+    perk: 'Rewinds minor teacup spills by 5 seconds',
+    greeting: 'Squeak! Time is running like a hamster wheel!',
+    tips: [
+      'Barnaby says: Pocket watches sync best at 3:00 PM teatime!',
+      'Barnaby advises: 10 seconds of time-freeze gives you time to breathe.',
+      'Barnaby giggles: Don\'t forget to wind your spring!'
+    ]
+  },
+  {
+    id: 'nimbus',
+    name: 'Nimbus Cloud Pup',
+    title: 'Micro-Cumulus Companion',
+    species: 'Aero-Canine',
+    avatarEmoji: '☁️',
+    perk: 'Floats gently at eye level carrying your keys',
+    greeting: 'Woof! Floating feels like a warm hug!',
+    tips: [
+      'Nimbus barks: Feather-fall spray makes stairs feel like clouds!',
+      'Nimbus wags: Take a gentle stretch before flying.',
+      'Nimbus smiles: Friendly heroes always share cookies!'
+    ]
+  },
+  {
+    id: 'sparky',
+    name: 'Sparky Pocket Drake',
+    title: 'Cozy Hearth Salamander',
+    species: 'Pygmy Dragon',
+    avatarEmoji: '🦎',
+    perk: 'Keeps your morning tea mug perfectly warm',
+    greeting: 'Puff puff! A warm spark makes everything right!',
+    tips: [
+      'Sparky purrs: Voltaris Elixir is best served warm, not boiling!',
+      'Sparky chirps: Keep your hideout cozy with a little ember!',
+      'Sparky chimes: Courage is just kindness with a cape.'
+    ]
+  }
+];
 
 interface AppContextType {
   cart: CartItem[];
@@ -26,6 +85,7 @@ interface AppContextType {
   equipPower: (productId: string, event?: React.MouseEvent) => void;
   unequipPower: (productId: string) => void;
   updateSecretHideout: (address: string, lat: number, lng: number) => void;
+  setPowerLevelSlider: (score: number) => void;
 
   orders: Order[];
   createOrder: (deliveryMode: 'teleport' | 'sonic' | 'subterranean', destinationAddress: string, coordinates: { lat: number; lng: number }) => Order;
@@ -49,8 +109,24 @@ interface AppContextType {
   isCheckoutOpen: boolean;
   setIsCheckoutOpen: (open: boolean) => void;
 
-  activeTab: 'home' | 'shop' | 'bestsellers' | 'new-arrivals' | 'quiz' | 'orders';
-  setActiveTab: (tab: 'home' | 'shop' | 'bestsellers' | 'new-arrivals' | 'quiz' | 'orders') => void;
+  // New Loading Page Requirement
+  isLoadingScreen: boolean;
+  setIsLoadingScreen: (loading: boolean) => void;
+  loadingMessage: string;
+  triggerLoadingScreen: (durationMs?: number, message?: string) => void;
+
+  // Whimsical Companion
+  selectedCompanion: MascotCompanion;
+  setSelectedCompanion: (comp: MascotCompanion) => void;
+  companionTip: string | null;
+  setCompanionTip: (tip: string | null) => void;
+
+  // Dynamic Product Borders based on Quiz
+  quizCardBorderStyle: 'default' | 'electric' | 'mystic' | 'tech';
+  setQuizCardBorderStyle: (style: 'default' | 'electric' | 'mystic' | 'tech') => void;
+
+  activeTab: 'home' | 'shop' | 'bestsellers' | 'new-arrivals' | 'quiz' | 'orders' | 'delivery';
+  setActiveTab: (tab: 'home' | 'shop' | 'bestsellers' | 'new-arrivals' | 'quiz' | 'orders' | 'delivery') => void;
   activeCategory: string | null;
   setActiveCategory: (cat: string | null) => void;
   searchQuery: string;
@@ -83,11 +159,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [user, setUser] = useState<UserProfile>({
     heroAlias: 'Agent Nova-01',
     secretIdentity: 'Alex Mercer',
-    email: 'alex.mercer@supranova.labs',
+    email: 'alex.mercer@superpowerlabs.co',
     avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=AgentNova',
     isGoogleLinked: true,
     mode: 'hero',
-    powerLevelScore: 9420,
+    powerLevelScore: 68,
+    powerLevelRank: 'Heroic Junior',
     equippedPowers: ['potion-voltaris', 'acc-portalring'],
     savedAddresses: [
       {
@@ -147,6 +224,57 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   ]);
 
+  const setPowerLevelSlider = (score: number) => {
+    let rank: 'Mundane' | 'Trainee' | 'Heroic Junior' | 'Gentle Legend' | 'Cosmic Friend' = 'Mundane';
+    if (score > 90) rank = 'Cosmic Friend';
+    else if (score > 70) rank = 'Gentle Legend';
+    else if (score > 45) rank = 'Heroic Junior';
+    else if (score > 20) rank = 'Trainee';
+
+    setUser(prev => ({
+      ...prev,
+      powerLevelScore: score,
+      powerLevelRank: rank
+    }));
+  };
+
+  // Loading Screen State (Initial friendly loading + callable anywhere)
+  const [isLoadingScreen, setIsLoadingScreen] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState('STABLE-LOADING...');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoadingScreen(false);
+    }, 1800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const triggerLoadingScreen = (durationMs = 2000, message = 'FRIENDLY DISPATCH IN PROGRESS...') => {
+    setLoadingMessage(message);
+    setIsLoadingScreen(true);
+    setTimeout(() => {
+      setIsLoadingScreen(false);
+    }, durationMs);
+  };
+
+  // Companion Mascot State
+  const [selectedCompanion, setSelectedCompanion] = useState<MascotCompanion>(MASCOT_COMPANIONS[0]);
+  const [companionTip, setCompanionTip] = useState<string | null>(MASCOT_COMPANIONS[0].tips[0]);
+
+  // Rotate companion tips every 12 seconds with gentle fade
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (selectedCompanion?.tips?.length) {
+        const nextTip = selectedCompanion.tips[Math.floor(Math.random() * selectedCompanion.tips.length)];
+        setCompanionTip(nextTip);
+      }
+    }, 12000);
+    return () => clearInterval(interval);
+  }, [selectedCompanion]);
+
+  // Dynamic Product Borders based on Quiz
+  const [quizCardBorderStyle, setQuizCardBorderStyle] = useState<'default' | 'electric' | 'mystic' | 'tech'>('default');
+
   // Navigation & Modals
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -155,7 +283,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'home' | 'shop' | 'bestsellers' | 'new-arrivals' | 'quiz' | 'orders'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'shop' | 'bestsellers' | 'new-arrivals' | 'quiz' | 'orders' | 'delivery'>('home');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -437,6 +565,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         equipPower,
         unequipPower,
         updateSecretHideout,
+        setPowerLevelSlider,
 
         orders,
         createOrder,
@@ -459,6 +588,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsHelpOpen,
         isCheckoutOpen,
         setIsCheckoutOpen,
+
+        isLoadingScreen,
+        setIsLoadingScreen,
+        loadingMessage,
+        triggerLoadingScreen,
+
+        selectedCompanion,
+        setSelectedCompanion,
+        companionTip,
+        setCompanionTip,
+
+        quizCardBorderStyle,
+        setQuizCardBorderStyle,
 
         activeTab,
         setActiveTab,

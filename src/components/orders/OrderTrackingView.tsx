@@ -7,10 +7,7 @@ import {
   Clock, 
   QrCode, 
   RotateCw, 
-  Truck, 
-  ShieldCheck,
-  ShoppingBag,
-  ExternalLink
+  Truck
 } from 'lucide-react';
 
 export const OrderTrackingView: React.FC = () => {
@@ -27,7 +24,7 @@ export const OrderTrackingView: React.FC = () => {
 
   const steps = [
     { id: 1, label: "Vault Extraction", desc: "Superpower sealed in cryogenic container" },
-    { id: 2, label: "Quantum Coordinates Calibrated", desc: "Locking on receiver coordinates" },
+    { id: 2, label: "Coordinates Calibrated", desc: "Locking on secret receiver base" },
     { id: 3, label: "In Teleport Transit", desc: "Spatial wormhole active in Sub-Sector 7" },
     { id: 4, label: "Materialized at Base", desc: "Package deposited inside containment lockbox" }
   ];
@@ -39,13 +36,15 @@ export const OrderTrackingView: React.FC = () => {
 
   if (!currentOrder) {
     return (
-      <div className="min-h-screen bg-[#0B0A10] py-20 px-4 text-center">
-        <Truck className="mx-auto h-16 w-16 text-zinc-600 mb-4" />
-        <h2 className="font-display text-3xl text-white">NO ORDERS DETECTED</h2>
-        <p className="text-zinc-400 text-xs mt-2">You haven&apos;t authorized any teleport shipments yet.</p>
+      <div className="min-h-screen bg-[#FFFDF0] py-20 px-4 text-center halftone-bg">
+        <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-white border-3 border-black shadow-[4px_4px_0px_#000000] mb-4">
+          <Truck className="h-10 w-10 text-[#FF2A2A]" />
+        </div>
+        <h2 className="font-display text-4xl text-black">NO ORDERS DETECTED!</h2>
+        <p className="text-black/70 font-mono-code font-bold text-xs mt-2">You haven&apos;t authorized any superpower shipments yet.</p>
         <button
           onClick={() => setActiveTab('shop')}
-          className="mt-6 rounded bg-[#00F0FF] px-6 py-2.5 font-display text-sm text-black border border-black shadow-[3px_3px_0px_#000000]"
+          className="mt-6 rounded-2xl bg-[#FFE600] px-8 py-3.5 font-display text-base text-black border-3 border-black shadow-[4px_4px_0px_#000000] hover:bg-[#FF2A2A] hover:text-white transition-all cursor-pointer"
         >
           EXPLORE POWERS NOW
         </button>
@@ -56,30 +55,31 @@ export const OrderTrackingView: React.FC = () => {
   const currentStep = currentOrder.trackingStep || 2;
 
   return (
-    <div className="min-h-screen bg-[#0B0A10] py-12 px-4 sm:px-6">
+    <div className="min-h-screen bg-[#FFFDF0] py-12 px-4 sm:px-6 halftone-bg">
       <div className="mx-auto max-w-5xl space-y-8">
         
         {/* Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#2A2938] pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-3 border-black pb-6">
           <div>
-            <div className="text-xs font-mono-code text-[#00F0FF] mb-1 flex items-center gap-1.5">
-              <Zap className="h-3.5 w-3.5" />
-              <span>QUANTUM CARRIER MONITORING CONSOLE</span>
+            <div className="text-xs font-mono-code font-bold text-black mb-1 flex items-center gap-1.5 uppercase">
+              <span className="bg-[#FFE600] px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_#000000]">
+                TELEPORT COURIER RADAR · LOG ISSUE #42
+              </span>
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl text-white tracking-wide">
-              ORDER TELEPORT DOSSIER
+            <h1 className="font-display text-4xl sm:text-5xl text-black tracking-wide leading-tight">
+              TELEPORT DISPATCH DOSSIER
             </h1>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="font-mono-code text-xs text-zinc-400">SELECT ORDER:</span>
+          <div className="flex items-center gap-2 font-mono-code font-bold text-xs text-black">
+            <span>SELECT DOSSIER:</span>
             <select
               value={currentOrder.id}
               onChange={(e) => {
                 const found = orders.find(o => o.id === e.target.value);
                 if (found) setActiveTrackingOrder(found);
               }}
-              className="bg-[#161521] border border-black rounded px-3 py-1.5 text-xs text-white font-mono-code"
+              className="bg-white border-2 border-black rounded-xl px-3 py-1.5 text-xs text-black font-mono-code font-bold focus:outline-none"
             >
               {orders.map(o => (
                 <option key={o.id} value={o.id}>
@@ -91,63 +91,63 @@ export const OrderTrackingView: React.FC = () => {
         </div>
 
         {/* Live Delivery Tracker Box */}
-        <div className="rounded-2xl border-4 border-black bg-[#161521] p-6 sm:p-8 shadow-[8px_8px_0px_#000000,12px_12px_0px_#00F0FF]">
+        <div className="rounded-3xl border-4 border-black bg-white p-6 sm:p-8 shadow-[8px_8px_0px_#000000]">
           
           {/* Order Header Meta */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#2A2938] pb-6 mb-8">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-black pb-6 mb-8">
             <div>
-              <div className="font-display text-2xl text-white">
-                ORDER REF: <span className="text-[#00F0FF]">{currentOrder.id}</span>
+              <div className="font-display text-3xl text-black">
+                ORDER REF: <span className="text-[#FF2A2A]">{currentOrder.id}</span>
               </div>
-              <div className="text-xs font-mono-code text-zinc-400 mt-1">
+              <div className="text-xs font-mono-code font-bold text-black/70 mt-1">
                 AUTHORIZED ON {currentOrder.date} · MODE: {currentOrder.deliveryMode.toUpperCase()}
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="bg-[#0B0A10] px-3.5 py-1.5 rounded-lg border border-black text-right">
-                <div className="text-[10px] font-mono-code text-zinc-400">TELEPORT PASSCODE</div>
-                <div className="text-xs font-mono-code font-bold text-[#F59E0B]">
+              <div className="bg-[#FAF6E8] px-4 py-2 rounded-xl border-2 border-black text-right shadow-[2px_2px_0px_#000000]">
+                <div className="text-[10px] font-mono-code font-bold text-black/60">DISPATCH PASSCODE</div>
+                <div className="text-sm font-mono-code font-black text-[#FF2A2A]">
                   {currentOrder.teleportPassCode}
                 </div>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0B0A10] border border-black text-white">
-                <QrCode className="h-6 w-6 text-[#00F0FF]" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#FFE600] border-2 border-black text-black shadow-[2px_2px_0px_#000000]">
+                <QrCode className="h-7 w-7 text-black" />
               </div>
             </div>
           </div>
 
           {/* Stepper Progress */}
-          <div className="mb-10">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               {steps.map((st) => {
                 const isPassed = st.id <= currentStep;
                 const isCurrent = st.id === currentStep;
                 return (
                   <div
                     key={st.id}
-                    className={`rounded-xl border-2 border-black p-4 transition-all ${
+                    className={`rounded-2xl border-3 border-black p-4 transition-all ${
                       isCurrent
-                        ? 'bg-[#00F0FF]/15 border-[#00F0FF] shadow-[3px_3px_0px_#00F0FF]'
+                        ? 'bg-[#FFE600] shadow-[4px_4px_0px_#000000] -translate-y-1'
                         : isPassed
-                        ? 'bg-[#0B0A10] border-zinc-700'
-                        : 'bg-[#0B0A10]/40 border-[#2A2938] opacity-50'
+                        ? 'bg-[#FAF6E8]'
+                        : 'bg-white/60 opacity-60'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-mono-code text-[11px] text-zinc-400">
+                      <span className="font-mono-code font-bold text-[11px] text-black">
                         PHASE 0{st.id}
                       </span>
                       {isPassed ? (
-                        <CheckCircle2 className="h-4 w-4 text-[#00F0FF]" />
+                        <CheckCircle2 className="h-5 w-5 text-[#00D06C]" />
                       ) : (
-                        <Clock className="h-4 w-4 text-zinc-600" />
+                        <Clock className="h-5 w-5 text-black/40" />
                       )}
                     </div>
-                    <div className="font-display text-base text-white leading-tight">
+                    <div className="font-display text-lg text-black leading-tight">
                       {st.label}
                     </div>
-                    <div className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                    <div className="text-xs text-black/75 font-medium mt-1 leading-relaxed">
                       {st.desc}
                     </div>
                   </div>
@@ -157,27 +157,27 @@ export const OrderTrackingView: React.FC = () => {
           </div>
 
           {/* Destination Coordinates Radar Screen */}
-          <div className="rounded-xl border-2 border-black bg-[#0B0A10] p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="rounded-2xl border-3 border-black bg-[#FAF6E8] p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[3px_3px_0px_#000000]">
             <div className="space-y-1">
-              <div className="text-xs font-mono-code text-[#F59E0B] uppercase flex items-center gap-1.5">
+              <div className="text-xs font-mono-code font-bold text-[#FF2A2A] uppercase flex items-center gap-1.5">
                 <MapPin className="h-4 w-4" />
                 <span>RECEIVING BASE DESTINATION</span>
               </div>
-              <div className="font-display text-lg text-white">
+              <div className="font-display text-2xl text-black">
                 {currentOrder.destinationAddress}
               </div>
-              <div className="text-xs font-mono-code text-zinc-400">
+              <div className="text-xs font-mono-code font-bold text-black/70">
                 LAT: {currentOrder.coordinates.lat} · LNG: {currentOrder.coordinates.lng} · ELEVATION: 420m (Subterranean)
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#00F0FF] bg-[#00F0FF]/10 animate-pulse">
-                <Zap className="h-6 w-6 text-[#00F0FF]" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-[#FFE600] shadow-[2px_2px_0px_#000000]">
+                <Zap className="h-6 w-6 text-black fill-current" />
               </div>
-              <div className="text-right">
-                <div className="text-[10px] font-mono-code text-zinc-500">ESTIMATED DROP</div>
-                <div className="font-mono-code text-sm font-bold text-[#00F0FF]">T-MINUS 00:04:12</div>
+              <div className="text-right font-mono-code font-bold">
+                <div className="text-[10px] text-black/60">ESTIMATED DROP</div>
+                <div className="text-sm font-black text-[#FF2A2A]">T-MINUS 00:04:12</div>
               </div>
             </div>
           </div>
@@ -185,19 +185,19 @@ export const OrderTrackingView: React.FC = () => {
         </div>
 
         {/* Order Items Breakdown */}
-        <div className="rounded-2xl border-4 border-black bg-[#161521] p-6 shadow-[6px_6px_0px_#000000]">
-          <h3 className="font-display text-xl text-white tracking-wide mb-4">
+        <div className="rounded-3xl border-4 border-black bg-white p-6 shadow-[8px_8px_0px_#000000]">
+          <h3 className="font-display text-2xl text-black tracking-wide mb-4">
             MANIFEST ITEMS IN SHIPMENT
           </h3>
 
-          <div className="space-y-3">
+          <div className="space-y-3 font-mono-code font-bold">
             {currentOrder.items.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between p-3 rounded-xl border border-[#2A2938] bg-[#0B0A10]"
+                className="flex items-center justify-between p-3.5 rounded-2xl border-2 border-black bg-[#FAF6E8]"
               >
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-lg bg-black overflow-hidden border border-black">
+                  <div className="h-14 w-14 rounded-xl bg-black overflow-hidden border-2 border-black">
                     <img
                       src={item.product.image}
                       alt={item.product.name}
@@ -206,22 +206,22 @@ export const OrderTrackingView: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <div className="font-display text-base text-white">
+                    <div className="font-display text-lg text-black leading-tight">
                       {item.product.name}
                     </div>
-                    <div className="text-[10px] font-mono-code text-zinc-400">
+                    <div className="text-[11px] text-black/60">
                       Qty: {item.quantity} · {item.selectedVariant || 'Standard Issue'}
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <span className="font-mono-code text-sm font-bold text-[#F59E0B]">
+                  <span className="font-mono-code text-base font-black text-black">
                     ${item.product.price * item.quantity}
                   </span>
                   <button
                     onClick={() => handleReorder(item)}
-                    className="flex items-center gap-1 text-xs font-mono-code text-[#00F0FF] hover:underline"
+                    className="flex items-center gap-1 text-xs bg-[#FFE600] px-3 py-1.5 rounded-xl border border-black text-black hover:bg-[#FF2A2A] hover:text-white transition-colors"
                   >
                     <RotateCw className="h-3 w-3" />
                     <span>Re-equip</span>
@@ -231,9 +231,9 @@ export const OrderTrackingView: React.FC = () => {
             ))}
           </div>
 
-          <div className="mt-4 pt-4 border-t border-[#2A2938] flex justify-between font-mono-code text-sm text-white">
+          <div className="mt-4 pt-4 border-t-2 border-black flex justify-between font-mono-code font-bold text-sm text-black">
             <span>TOTAL TELEPORT MANIFEST VALUE:</span>
-            <span className="text-[#F59E0B] font-bold text-lg">${currentOrder.total}</span>
+            <span className="bg-[#FFE600] px-2 py-0.5 rounded border border-black text-xl font-black">${currentOrder.total}</span>
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { CATEGORIES_DATA } from '../../data/products';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, BookOpen } from 'lucide-react';
 
 export const CategoryShowcase: React.FC = () => {
   const { setActiveTab, setActiveCategory, triggerSoundEffect } = useApp();
@@ -9,25 +9,25 @@ export const CategoryShowcase: React.FC = () => {
   const handleCategoryClick = (categoryId: string, name: string) => {
     setActiveCategory(categoryId);
     setActiveTab('shop');
-    triggerSoundEffect(`${name} ARSENAL OPENED!`);
+    triggerSoundEffect(`${name.toUpperCase()} OPENED! ✦`, undefined, undefined, '#4A90E2');
   };
 
   return (
-    <section className="relative border-b border-[#2A2938] bg-[#0B0A10] py-16 sm:py-24">
+    <section className="relative border-b-2 border-[#2F3E46] bg-[#FDFBF0] py-14 sm:py-20 halftone-bg">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         
-        {/* Section Header */}
-        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2A2938] pb-6">
+        {/* Section Header Manga Box */}
+        <div className="mb-10 p-6 rounded-3xl border-2 border-[#2F3E46] bg-white shadow-[4px_4px_0px_#2F3E46] flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono-code text-[#00F0FF] mb-2 uppercase tracking-wider">
-              <Sparkles className="h-3.5 w-3.5" />
-              <span>THE FIVE CORE ARSENALS</span>
+            <div className="inline-flex items-center gap-2 text-xs font-stability font-semibold text-[#4A90E2] bg-[#EBF3FC] px-3 py-1 rounded-full border border-[#4A90E2]/30 mb-2 uppercase tracking-wider">
+              <BookOpen className="h-3.5 w-3.5" />
+              <span>CLASSIFIED MEDIUMS // DISPATCH CHRONICLES</span>
             </div>
-            <h2 className="font-display text-4xl sm:text-5xl text-white tracking-wide">
-              CHOOSE YOUR POWER
+            <h2 className="font-comfort text-3xl sm:text-4xl font-bold text-[#2F3E46] tracking-tight">
+              Choose Your Gentle Power Medium
             </h2>
-            <p className="text-zinc-400 text-sm mt-1 max-w-xl">
-              Five distinct pathways to unlock latent superhuman capabilities. Select your faction medium to explore specialized artifacts.
+            <p className="font-clean text-[#5C676D] text-sm mt-1 max-w-2xl leading-relaxed">
+              Whimsical jewelry, honeyed potions, warm spectacles, and friendly pocket bugs crafted with care.
             </p>
           </div>
           <button
@@ -35,75 +35,70 @@ export const CategoryShowcase: React.FC = () => {
               setActiveCategory(null);
               setActiveTab('shop');
             }}
-            className="text-xs font-mono-code text-[#00F0FF] hover:text-[#F59E0B] transition-colors flex items-center gap-1.5 self-start md:self-auto"
+            className="text-xs font-stability font-bold text-[#2F3E46] bg-[#FFC800] hover:bg-[#4A90E2] hover:text-white px-4 py-2.5 rounded-xl border border-[#2F3E46] shadow-[2px_2px_0px_#2F3E46] transition-all flex items-center gap-1.5 self-start md:self-auto cursor-pointer"
           >
-            <span>VIEW ALL 46 POWERS</span>
+            <span>BROWSE ENTIRE VAULT (46)</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
 
-        {/* 5 Categories Grid */}
+        {/* 5 Manga Panels Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {CATEGORIES_DATA.map((cat, idx) => (
+          {CATEGORIES_DATA.map((cat) => (
             <div
               key={cat.id}
               onClick={() => handleCategoryClick(cat.id, cat.name)}
-              className={`group relative cursor-pointer overflow-hidden rounded-xl border-3 border-black bg-[#161521] shadow-[5px_5px_0px_#000000] hover:shadow-[7px_7px_0px_${cat.accentColor}] transition-all duration-300 hover:-translate-y-1 ${
-                idx === 0 || idx === 1 ? 'lg:col-span-1' : ''
-              }`}
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border-2 border-[#2F3E46] bg-white shadow-[3px_3px_0px_#2F3E46] hover:shadow-[0_0_18px_rgba(74,144,226,0.2),4px_4px_0px_#2F3E46] hover:border-[#4A90E2] transition-all duration-200 hover:-translate-y-1"
             >
-              {/* Category Image with Overlay */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
+              {/* Manga Panel Top Bar */}
+              <div className="bg-[#F5F3E8] border-b border-[#2F3E46] px-3 py-1.5 flex items-center justify-between text-xs font-stability font-semibold text-[#2F3E46]">
+                <span className="bg-[#FFF6D6] px-2 py-0.5 rounded-full border border-[#2F3E46]/30 text-[10px]">
+                  PANEL {cat.number}
+                </span>
+                <span className="text-[11px] text-[#4A90E2] font-mono-code font-bold">
+                  ★ {cat.count} ARTIFACTS
+                </span>
+              </div>
+
+              {/* Category Image */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#FAF6E8] border-b-2 border-[#2F3E46]">
                 <img
                   src={cat.image}
                   alt={cat.name}
                   referrerPolicy="no-referrer"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-103"
                 />
+                
+                {/* Subtle halftone */}
+                <div className="pointer-events-none absolute inset-0 halftone-bg opacity-15" />
 
-                {/* Halftone Overlay */}
-                <div className="pointer-events-none absolute inset-0 halftone-bg opacity-25" />
-
-                {/* Dark Gradient Scrim */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#161521] via-[#161521]/40 to-transparent" />
-
-                {/* Category Number Badge */}
-                <div className="absolute top-3 left-3 bg-black/80 border border-white/20 px-2.5 py-1 rounded text-[11px] font-mono-code font-bold text-white shadow-sm">
-                  {cat.number}
-                </div>
-
-                {/* Item Count */}
-                <div className="absolute top-3 right-3 bg-black/80 border border-white/20 px-2.5 py-1 rounded text-[11px] font-mono-code text-zinc-300 shadow-sm">
-                  {cat.count} Powers
+                {/* Floating On-Hover Speech Bubble */}
+                <div className="absolute bottom-2 left-2 right-2 rounded-xl border border-[#2F3E46] bg-white/95 p-2 text-[11px] font-handwritten text-[#2F3E46] shadow-[2px_2px_0px_#2F3E46] backdrop-blur-xs flex items-center gap-1.5">
+                  <Sparkles className="h-3 w-3 text-[#FFC800] shrink-0" />
+                  <span className="truncate">&ldquo;{cat.tagline}&rdquo;</span>
                 </div>
               </div>
 
-              {/* Card Body */}
-              <div className="p-5">
-                <div className="text-xs font-mono-code uppercase tracking-wider mb-1" style={{ color: cat.accentColor }}>
-                  {cat.tagline}
+              {/* Category Content */}
+              <div className="p-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-expressive text-2xl text-[#2F3E46] group-hover:text-[#4A90E2] transition-colors leading-tight">
+                    {cat.name}
+                  </h3>
+                  <span className="text-xs font-clean text-[#4A90E2] group-hover:translate-x-1 transition-transform">
+                    →
+                  </span>
                 </div>
-                <h3 className="font-display text-2xl text-white tracking-wider group-hover:text-[#00F0FF] transition-colors">
-                  {cat.name}
-                </h3>
-                <p className="text-sm font-semibold text-zinc-200 mt-1 mb-2 italic">
-                  “{cat.headline}”
-                </p>
-                <p className="text-xs text-zinc-400 line-clamp-2 mb-4 leading-relaxed">
+                
+                <p className="font-clean text-xs text-[#5C676D] line-clamp-2 leading-relaxed">
                   {cat.description}
                 </p>
 
-                {/* Action CTA */}
-                <div className="flex items-center justify-between pt-2 border-t border-[#2A2938]">
-                  <span className="text-xs font-mono-code text-zinc-400 group-hover:text-white transition-colors">
-                    EXPLORE COLLECTION →
+                <div className="pt-2 border-t border-[#F5F3E8] flex items-center justify-between text-[11px] font-clean font-semibold text-[#2F3E46]">
+                  <span className="text-[#5C676D]">Delivery: Teleport / Scooter</span>
+                  <span className="font-stability font-bold text-[#4A90E2] group-hover:underline">
+                    Explore Panel
                   </span>
-                  <div
-                    className="flex h-7 w-7 items-center justify-center rounded border border-black shadow-[2px_2px_0px_#000000] text-black transition-transform group-hover:translate-x-1"
-                    style={{ backgroundColor: cat.accentColor }}
-                  >
-                    <ArrowRight className="h-4 w-4" />
-                  </div>
                 </div>
               </div>
             </div>

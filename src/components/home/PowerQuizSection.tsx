@@ -4,13 +4,11 @@ import { QUIZ_QUESTIONS, QUIZ_RESULTS } from '../../data/quiz';
 import { PRODUCTS } from '../../data/products';
 import { 
   Sparkles, 
-  ArrowRight, 
   RotateCcw, 
-  Check, 
   ShoppingBag,
-  Zap,
-  ShieldCheck,
-  Star
+  Star,
+  CheckCircle2,
+  Wand2
 } from 'lucide-react';
 
 export const PowerQuizSection: React.FC = () => {
@@ -18,8 +16,9 @@ export const PowerQuizSection: React.FC = () => {
     setSelectedProduct, 
     addToCart, 
     setActiveTab, 
-    setActiveCategory, 
-    triggerSoundEffect 
+    triggerSoundEffect,
+    setQuizCardBorderStyle,
+    quizCardBorderStyle 
   } = useApp();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -34,7 +33,7 @@ export const PowerQuizSection: React.FC = () => {
   });
 
   const handleSelectOption = (affinity: string) => {
-    triggerSoundEffect('ENERGY PULSE! ✦');
+    triggerSoundEffect('ENERGY PULSE! ✦', undefined, undefined, '#4A90E2');
     const nextAnswers = [...selectedAnswers, affinity];
     setSelectedAnswers(nextAnswers);
 
@@ -48,7 +47,15 @@ export const PowerQuizSection: React.FC = () => {
       setCurrentStep(prev => prev + 1);
     } else {
       setQuizFinished(true);
-      triggerSoundEffect('SUPERPOWER UNLOCKED! ★', undefined, undefined, '#FFD700');
+      // Map affinity to dynamic product border
+      if (affinity === 'electricity') {
+        setQuizCardBorderStyle('electric');
+      } else if (affinity === 'time' || affinity === 'teleportation') {
+        setQuizCardBorderStyle('mystic');
+      } else {
+        setQuizCardBorderStyle('tech');
+      }
+      triggerSoundEffect('POWER AFFINITY UNLOCKED! ★', undefined, undefined, '#FFC800');
     }
   };
 
@@ -56,6 +63,7 @@ export const PowerQuizSection: React.FC = () => {
     setCurrentStep(0);
     setSelectedAnswers([]);
     setQuizFinished(false);
+    setQuizCardBorderStyle('default');
     setAffinityCounts({
       teleportation: 0,
       time: 0,
@@ -63,7 +71,7 @@ export const PowerQuizSection: React.FC = () => {
       flight: 0,
       stealth: 0
     });
-    triggerSoundEffect('RECALIBRATING!');
+    triggerSoundEffect('RECALIBRATING! ✦', undefined, undefined, '#4A90E2');
   };
 
   // Determine winning affinity
@@ -73,6 +81,8 @@ export const PowerQuizSection: React.FC = () => {
     for (const [key, count] of Object.entries(affinityCounts)) {
       if (count > max) {
         max = count;
+      }
+      if (count === max) {
         winning = key;
       }
     }
@@ -86,43 +96,40 @@ export const PowerQuizSection: React.FC = () => {
   const currentQ = QUIZ_QUESTIONS[currentStep];
 
   return (
-    <section id="power-quiz" className="relative border-b border-[#2A2938] bg-[#161521] py-16 sm:py-24 overflow-hidden">
+    <section id="power-quiz" className="relative border-b-2 border-[#2F3E46] bg-[#FDFBF0] py-16 sm:py-24 overflow-hidden halftone-bg">
       
-      {/* Decorative Halftone Background */}
-      <div className="pointer-events-none absolute inset-0 halftone-bg opacity-20" />
-
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
         
         {/* Section Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#F59E0B]/40 bg-[#F59E0B]/10 px-3 py-1 text-xs font-mono-code text-[#F59E0B] mb-3">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>PERSONALITY & RESONANCE DIAGNOSTIC</span>
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#4A90E2]/30 bg-[#EBF3FC] px-4 py-1 text-xs font-stability font-semibold text-[#4A90E2] shadow-[2px_2px_0px_#4A90E2] mb-3 uppercase tracking-wider">
+            <Sparkles className="h-3.5 w-3.5 fill-current text-[#FFC800]" />
+            <span>SUPER POWER LABS · WHIMSICAL APTITUDE EXAM</span>
           </div>
-          <h2 className="font-display text-4xl sm:text-5xl text-white tracking-wider">
-            WHAT&apos;S YOUR SUPERPOWER?
+          <h2 className="font-comfort text-4xl sm:text-5xl text-[#2F3E46] tracking-tight leading-tight">
+            Which Power Harmonizes with You?
           </h2>
-          <p className="text-zinc-400 text-sm mt-2 max-w-lg mx-auto">
-            Answer 5 questions. We&apos;ll find your perfect power.
+          <p className="text-[#5C676D] font-clean text-sm sm:text-base mt-2 max-w-lg mx-auto bg-white/80 p-3 rounded-2xl border border-[#2F3E46]/30">
+            Answer 5 friendly daily scenarios to discover your gentle power archetype and adapt your shop card border style!
           </p>
         </div>
 
         {/* QUIZ INTERACTION BOX */}
-        <div className="rounded-2xl border-4 border-black bg-[#0B0A10] p-6 sm:p-10 shadow-[8px_8px_0px_#000000,12px_12px_0px_#F59E0B]">
+        <div className="rounded-3xl border-3 border-[#2F3E46] bg-white p-6 sm:p-10 shadow-[6px_6px_0px_#2F3E46]">
           
           {!quizFinished ? (
             <div>
               {/* Progress Bar */}
               <div className="mb-8">
-                <div className="flex items-center justify-between text-xs font-mono-code text-zinc-400 mb-2">
+                <div className="flex items-center justify-between text-xs font-stability font-bold text-[#2F3E46] mb-2">
                   <span>QUESTION {currentStep + 1} OF {QUIZ_QUESTIONS.length}</span>
-                  <span className="text-[#F59E0B] font-bold">
+                  <span className="bg-[#FFF6D6] px-2.5 py-0.5 rounded-full border border-[#2F3E46] text-[#4A90E2] font-mono-code">
                     {Math.round(((currentStep + 1) / QUIZ_QUESTIONS.length) * 100)}% COMPLETE
                   </span>
                 </div>
-                <div className="h-2 w-full rounded-full bg-[#161521] border border-black overflow-hidden">
+                <div className="h-3 w-full rounded-full bg-[#F5F3E8] border border-[#2F3E46] overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-[#00F0FF] via-[#FF0055] to-[#F59E0B] transition-all duration-300"
+                    className="h-full bg-[#4A90E2] rounded-full transition-all duration-300"
                     style={{ width: `${((currentStep + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
                   />
                 </div>
@@ -130,10 +137,10 @@ export const PowerQuizSection: React.FC = () => {
 
               {/* Question Text */}
               <div className="mb-8">
-                <h3 className="font-display text-2xl sm:text-3xl text-white tracking-wide">
+                <h3 className="font-comfort text-2xl sm:text-3xl text-[#2F3E46] leading-tight">
                   {currentQ.question}
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-400 mt-1">
+                <p className="text-xs sm:text-sm font-clean text-[#5C676D] mt-1.5">
                   {currentQ.subtitle}
                 </p>
               </div>
@@ -144,16 +151,16 @@ export const PowerQuizSection: React.FC = () => {
                   <button
                     key={idx}
                     onClick={() => handleSelectOption(option.powerAffinity)}
-                    className="group flex items-start gap-4 rounded-xl border-2 border-black bg-[#161521] p-4 text-left shadow-[4px_4px_0px_#000000] hover:border-[#F59E0B] hover:shadow-[6px_6px_0px_#F59E0B] hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                    className="group flex items-start gap-4 rounded-2xl border-2 border-[#2F3E46] bg-[#FDFBF0] p-4 text-left shadow-[3px_3px_0px_#2F3E46] hover:bg-[#EBF3FC] hover:border-[#4A90E2] hover:shadow-[0_0_15px_rgba(74,144,226,0.2),4px_4px_0px_#4A90E2] transition-all cursor-pointer"
                   >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#0B0A10] border border-zinc-700 text-xl group-hover:scale-110 transition-transform">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white border border-[#2F3E46] text-2xl group-hover:scale-105 transition-transform shadow-[2px_2px_0px_#2F3E46]">
                       {option.icon}
                     </div>
                     <div>
-                      <div className="text-sm font-bold text-white group-hover:text-[#F59E0B] transition-colors leading-snug">
+                      <div className="text-base font-expressive text-[#2F3E46] group-hover:text-[#4A90E2] transition-colors leading-snug">
                         {option.label}
                       </div>
-                      <div className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                      <div className="text-xs text-[#5C676D] font-clean mt-1 leading-relaxed">
                         {option.description}
                       </div>
                     </div>
@@ -166,33 +173,41 @@ export const PowerQuizSection: React.FC = () => {
             <div className="space-y-8 animate-fadeIn">
               
               {/* Power Banner Announcement */}
-              <div className="text-center border-b border-[#2A2938] pb-8">
-                <div className="inline-block bg-[#F59E0B] text-black font-display text-xs px-3 py-1 rounded border border-black shadow-[2px_2px_0px_#FFFFFF] uppercase tracking-wider mb-3">
-                  DIAGNOSTIC CALIBRATION COMPLETE
+              <div className="text-center border-b-2 border-[#F5F3E8] pb-8">
+                <div className="inline-block bg-[#FFF6D6] text-[#2F3E46] font-stability text-xs px-4 py-1.5 rounded-full border border-[#2F3E46] shadow-[2px_2px_0px_#2F3E46] uppercase tracking-wider mb-3">
+                  ★ OFFICIAL APTITUDE PROFILE DECODED ★
                 </div>
-                <h3 className="font-display text-4xl sm:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-[#FF0055] to-[#F59E0B] tracking-wider">
+                <h3 className="font-comfort text-4xl sm:text-5xl text-[#2F3E46] tracking-tight leading-tight">
                   {result.powerName}
                 </h3>
-                <div className="text-sm sm:text-base font-mono-code text-[#00F0FF] font-semibold mt-1">
-                  Archetype: {result.archetype}
+                <div className="text-sm font-clean font-bold text-[#4A90E2] mt-1">
+                  RESONANCE ARCHETYPE: {result.archetype}
                 </div>
-                <p className="text-zinc-300 text-sm sm:text-base max-w-2xl mx-auto mt-3 leading-relaxed">
+                <p className="text-[#5C676D] font-clean text-sm sm:text-base max-w-2xl mx-auto mt-3 leading-relaxed bg-[#FDFBF0] p-4 rounded-2xl border border-[#2F3E46]/30">
                   {result.description}
                 </p>
 
+                {/* Dynamic Product Card Border Feedback Notice */}
+                <div className="mt-4 inline-flex items-center gap-2 bg-[#EBF3FC] px-4 py-2 rounded-2xl border border-[#4A90E2]/40 text-xs font-stability font-semibold text-[#4A90E2]">
+                  <Wand2 className="h-4 w-4" />
+                  <span>
+                    Dynamic Product Borders Active: <strong>{quizCardBorderStyle.toUpperCase()}</strong> line-work applied to all catalog cards!
+                  </span>
+                </div>
+
                 {/* Radar Mini Stat Breakdown */}
-                <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-mono-code">
-                  <span className="bg-[#161521] px-3 py-1 rounded border border-[#2A2938]">
-                    SPEED: <strong className="text-[#00F0FF]">{result.stats.speed}/100</strong>
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs font-mono-code font-bold">
+                  <span className="bg-[#FDFBF0] px-3 py-1.5 rounded-xl border border-[#2F3E46] shadow-[1px_1px_0px_#2F3E46]">
+                    SPEED: <strong className="text-[#4A90E2]">{result.stats.speed}/100</strong>
                   </span>
-                  <span className="bg-[#161521] px-3 py-1 rounded border border-[#2A2938]">
-                    POWER: <strong className="text-[#FF0055]">{result.stats.power}/100</strong>
+                  <span className="bg-[#FDFBF0] px-3 py-1.5 rounded-xl border border-[#2F3E46] shadow-[1px_1px_0px_#2F3E46]">
+                    HARMONY: <strong className="text-[#FFC800]">{result.stats.power}/100</strong>
                   </span>
-                  <span className="bg-[#161521] px-3 py-1 rounded border border-[#2A2938]">
-                    INTELLIGENCE: <strong className="text-[#F59E0B]">{result.stats.intelligence}/100</strong>
+                  <span className="bg-[#FDFBF0] px-3 py-1.5 rounded-xl border border-[#2F3E46] shadow-[1px_1px_0px_#2F3E46]">
+                    CALM: <strong className="text-[#2F3E46]">{result.stats.intelligence}/100</strong>
                   </span>
-                  <span className="bg-[#161521] px-3 py-1 rounded border border-[#2A2938]">
-                    STEALTH: <strong className="text-[#10B981]">{result.stats.stealth}/100</strong>
+                  <span className="bg-[#FDFBF0] px-3 py-1.5 rounded-xl border border-[#2F3E46] shadow-[1px_1px_0px_#2F3E46]">
+                    STEALTH: <strong className="text-[#4A90E2]">{result.stats.stealth}/100</strong>
                   </span>
                 </div>
               </div>
@@ -200,13 +215,13 @@ export const PowerQuizSection: React.FC = () => {
               {/* Recommended 3 Products Matching the Power */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-display text-xl sm:text-2xl text-white tracking-wide flex items-center gap-2">
-                    <Star className="h-5 w-5 text-[#F59E0B] fill-current" />
-                    <span>RECOMMENDED ARSENAL FOR YOUR POWER</span>
+                  <h4 className="font-comfort text-2xl text-[#2F3E46] tracking-tight flex items-center gap-2">
+                    <Star className="h-5 w-5 text-[#FFC800] fill-current" />
+                    <span>Recommended Artifacts For Your Profile</span>
                   </h4>
                   <button
                     onClick={handleRestart}
-                    className="text-xs font-mono-code text-zinc-400 hover:text-white flex items-center gap-1 transition-colors"
+                    className="text-xs font-stability font-bold text-[#2F3E46] hover:text-[#4A90E2] flex items-center gap-1 transition-colors bg-[#FDFBF0] px-3 py-1.5 rounded-xl border border-[#2F3E46] cursor-pointer"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     <span>Retake Quiz</span>
@@ -217,46 +232,46 @@ export const PowerQuizSection: React.FC = () => {
                   {recommendedProducts.map((prod) => (
                     <div
                       key={prod.id}
-                      className="rounded-xl border-2 border-black bg-[#161521] p-4 shadow-[4px_4px_0px_#000000] flex flex-col justify-between"
+                      className="rounded-2xl border-2 border-[#2F3E46] bg-white p-4 shadow-[3px_3px_0px_#2F3E46] flex flex-col justify-between"
                     >
                       <div>
-                        <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-black mb-3">
+                        <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-[#FAF6E8] mb-3 border border-[#2F3E46]/30">
                           <img
                             src={prod.image}
                             alt={prod.name}
                             referrerPolicy="no-referrer"
                             className="h-full w-full object-cover"
                           />
-                          <div className="absolute top-2 left-2 bg-black/80 px-2 py-0.5 rounded text-[10px] font-mono-code text-[#00F0FF]">
+                          <div className="absolute top-2 left-2 bg-[#FFF6D6] px-2 py-0.5 rounded-full text-[10px] font-stability font-bold text-[#2F3E46] border border-[#2F3E46]">
                             {prod.rarity}
                           </div>
                         </div>
 
-                        <div className="text-[10px] font-mono-code text-zinc-400 uppercase">
+                        <div className="text-[10px] font-stability font-bold text-[#4A90E2] uppercase">
                           {prod.categoryLabel}
                         </div>
-                        <h5 className="font-display text-lg text-white tracking-wide">
+                        <h5 className="font-expressive text-xl text-[#2F3E46] leading-snug">
                           {prod.name}
                         </h5>
-                        <p className="text-xs text-zinc-400 line-clamp-2 mt-0.5">
+                        <p className="text-xs text-[#5C676D] font-clean line-clamp-2 mt-0.5">
                           {prod.tagline}
                         </p>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-[#2A2938] flex items-center justify-between">
-                        <span className="font-mono-code text-base font-bold text-[#F59E0B]">
+                      <div className="mt-4 pt-3 border-t border-[#F5F3E8] flex items-center justify-between">
+                        <span className="bg-[#FFF6D6] px-2.5 py-0.5 rounded-full border border-[#2F3E46] font-mono-code text-sm font-bold text-[#2F3E46]">
                           ${prod.price}
                         </span>
-                        <div className="flex gap-2">
+                        <div className="flex gap-1.5">
                           <button
                             onClick={() => setSelectedProduct(prod)}
-                            className="text-xs font-mono-code text-zinc-300 hover:text-white px-2 py-1 rounded bg-[#0B0A10] border border-zinc-700"
+                            className="text-xs font-clean font-semibold text-[#5C676D] px-2.5 py-1.5 rounded-lg hover:text-[#2F3E46] cursor-pointer"
                           >
                             Inspect
                           </button>
                           <button
                             onClick={(e) => addToCart(prod, 1, undefined, e)}
-                            className="flex items-center gap-1 text-xs font-display bg-[#00F0FF] text-black px-2.5 py-1 rounded border border-black hover:bg-[#F59E0B]"
+                            className="flex items-center gap-1 text-xs font-stability font-bold bg-[#FFC800] text-[#2F3E46] px-3 py-1.5 rounded-xl border border-[#2F3E46] shadow-[2px_2px_0px_#2F3E46] hover:bg-[#4A90E2] hover:text-white cursor-pointer"
                           >
                             <ShoppingBag className="h-3 w-3" />
                             <span>Add</span>
@@ -273,11 +288,11 @@ export const PowerQuizSection: React.FC = () => {
                 <button
                   onClick={() => {
                     setActiveTab('shop');
-                    triggerSoundEffect('FILTERING BY YOUR POWER! ✦');
+                    triggerSoundEffect('EXPLORING CATALOG! ✦', undefined, undefined, '#4A90E2');
                   }}
-                  className="rounded-xl bg-[#F59E0B] px-8 py-4 font-display text-xl text-black border-3 border-black shadow-[6px_6px_0px_#000000] hover:bg-[#00F0FF] hover:shadow-[8px_8px_0px_#000000] transition-all"
+                  className="rounded-2xl bg-[#FFC800] px-8 py-3.5 font-stability text-base font-bold text-[#2F3E46] border-2 border-[#2F3E46] shadow-[4px_4px_0px_#2F3E46] hover:bg-[#4A90E2] hover:text-white hover:shadow-[5px_5px_0px_#2F3E46] transition-all cursor-pointer"
                 >
-                  SHOP MY POWER →
+                  SHOP MY RECOMMENDED ARSENAL →
                 </button>
               </div>
 

@@ -8,17 +8,11 @@ import {
   Heart, 
   Zap, 
   ShieldCheck, 
-  RotateCw, 
   Sparkles, 
   Star, 
-  Check, 
   Truck, 
-  CornerDownRight, 
-  Compass,
   Swords,
   ArrowRightLeft,
-  ChevronDown,
-  TrendingUp,
   Award
 } from 'lucide-react';
 
@@ -51,7 +45,6 @@ export const ProductDetailModal: React.FC = () => {
     if (comparisonProductId && comparisonProductId !== selectedProduct.id) {
       return PRODUCTS.find(p => p.id === comparisonProductId);
     }
-    // Default rival: pick first different product from same category or different category
     return (
       PRODUCTS.find(p => p.category === selectedProduct.category && p.id !== selectedProduct.id) ||
       PRODUCTS.find(p => p.id !== selectedProduct.id)
@@ -89,7 +82,7 @@ export const ProductDetailModal: React.FC = () => {
   const handleAddChallengerToCart = (e: React.MouseEvent) => {
     if (comparisonProduct) {
       addToCart(comparisonProduct, 1, undefined, e);
-      triggerSoundEffect('CHALLENGER ADDED TO BELT! ⚡', e.clientX, e.clientY, '#FF0055');
+      triggerSoundEffect('CHALLENGER ADDED TO BELT! ⚡', e.clientX, e.clientY, '#FF2A2A');
     }
   };
 
@@ -104,7 +97,7 @@ export const ProductDetailModal: React.FC = () => {
       const prevPrimary = selectedProduct;
       setSelectedProduct(comparisonProduct);
       setComparisonProductId(prevPrimary.id);
-      triggerSoundEffect('POWER ROLES SWAPPED! ✦', undefined, undefined, '#FF0055');
+      triggerSoundEffect('POWER ROLES SWAPPED! ✦', undefined, undefined, '#FF2A2A');
     }
   };
 
@@ -112,7 +105,7 @@ export const ProductDetailModal: React.FC = () => {
     const nextState = !isCompareMode;
     setIsCompareMode(nextState);
     if (nextState) {
-      triggerSoundEffect('VERSUS COMPARISON ENGAGED! ⚔️', undefined, undefined, '#FF0055');
+      triggerSoundEffect('VERSUS COMPARISON ENGAGED! ⚔️', undefined, undefined, '#FF2A2A');
     } else {
       triggerSoundEffect('DIAGNOSTIC MODE RESUMED! ✦');
     }
@@ -135,7 +128,7 @@ export const ProductDetailModal: React.FC = () => {
   const centerX = 110;
   const centerY = 110;
 
-  // Primary product polygon points (Cyan #00F0FF)
+  // Primary product polygon points (Hero Blue #0066FF)
   const polygonPointsA = statKeys.map((s, idx) => {
     const angle = (Math.PI * 2 / 5) * idx - Math.PI / 2;
     const r = (s.valA / 100) * radius;
@@ -144,7 +137,7 @@ export const ProductDetailModal: React.FC = () => {
     return `${x},${y}`;
   }).join(' ');
 
-  // Challenger product polygon points (Magenta #FF0055)
+  // Challenger product polygon points (Comic Red #FF2A2A)
   const polygonPointsB = statKeys.map((s, idx) => {
     const angle = (Math.PI * 2 / 5) * idx - Math.PI / 2;
     const r = (s.valB / 100) * radius;
@@ -156,33 +149,32 @@ export const ProductDetailModal: React.FC = () => {
   // Calculate advantages
   const winsA = statKeys.filter(s => s.valA > s.valB).length;
   const winsB = statKeys.filter(s => s.valB > s.valA).length;
-  const ties = statKeys.filter(s => s.valA === s.valB).length;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto font-sans">
       
       {/* Modal Container */}
-      <div className="relative w-full max-w-6xl rounded-2xl border-4 border-black bg-[#0B0A10] p-4 sm:p-8 shadow-[10px_10px_0px_#000000,14px_14px_0px_#00F0FF] my-auto">
+      <div className="relative w-full max-w-6xl rounded-3xl border-4 border-black bg-white p-4 sm:p-8 shadow-[10px_10px_0px_#000000] my-auto">
         
         {/* Top Header Action Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-black pb-4 mb-6">
-          <div className="flex items-center gap-2">
-            <div className={`flex h-9 w-9 items-center justify-center rounded-lg border-2 border-black font-display text-lg ${
-              isCompareMode ? 'bg-[#FF0055] text-white shadow-[2px_2px_0px_#000000]' : 'bg-[#00F0FF] text-black shadow-[2px_2px_0px_#000000]'
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b-3 border-black pb-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className={`flex h-11 w-11 items-center justify-center rounded-xl border-3 border-black font-display text-xl ${
+              isCompareMode ? 'bg-[#FF2A2A] text-white shadow-[3px_3px_0px_#000000]' : 'bg-[#FFE600] text-black shadow-[3px_3px_0px_#000000]'
             }`}>
-              {isCompareMode ? <Swords className="h-5 w-5 animate-pulse" /> : <Zap className="h-5 w-5" />}
+              {isCompareMode ? <Swords className="h-6 w-6" /> : <Zap className="h-6 w-6 fill-current stroke-black stroke-2" />}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-display text-xl sm:text-2xl text-white tracking-wide">
-                  {isCompareMode ? 'VERSUS PROTOCOL: DUAL POWER COMPARISON' : 'GENE-X PRODUCT INSPECTOR'}
+                <span className="font-display text-2xl sm:text-3xl text-black tracking-wide">
+                  {isCompareMode ? 'VERSUS PROTOCOL: POWER COMPARISON' : 'GENUINE SUPERPOWER SPEC SHEET'}
                 </span>
-                <span className="text-[10px] font-mono-code font-bold px-2 py-0.5 rounded border border-black bg-[#161521] text-[#00F0FF]">
+                <span className="text-[11px] font-mono-code font-bold px-2 py-0.5 rounded border border-black bg-[#FFE600] text-black">
                   {selectedProduct.rarity}
                 </span>
               </div>
-              <p className="text-[10px] font-mono-code text-zinc-400">
-                {isCompareMode ? 'CROSS-EXAMINE DUAL SUPERPOWERS VIA OVERLAY RADAR MATRIX' : 'EXAMINE FOIL SPECIFICATIONS & BIOMETRIC STATS'}
+              <p className="text-[11px] font-mono-code font-bold text-black/70">
+                {isCompareMode ? 'SIDE-BY-SIDE RADAR COMBAT BREAKDOWN' : 'AUTHENTIC MAIL-ORDER CATALOGUE DOSSIER'}
               </p>
             </div>
           </div>
@@ -191,21 +183,21 @@ export const ProductDetailModal: React.FC = () => {
             {/* POWER COMPARISON TOGGLE BUTTON */}
             <button
               onClick={handleToggleCompare}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border-2 border-black font-display text-xs tracking-wider transition-all ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border-2 border-black font-display text-xs tracking-wider transition-all ${
                 isCompareMode
-                  ? 'bg-[#FF0055] text-white shadow-[3px_3px_0px_#000000]'
-                  : 'bg-[#161521] text-zinc-300 hover:text-white hover:border-[#00F0FF] shadow-[2px_2px_0px_#000000]'
+                  ? 'bg-[#FF2A2A] text-white shadow-[3px_3px_0px_#000000]'
+                  : 'bg-[#FFE600] text-black hover:bg-[#FF2A2A] hover:text-white shadow-[2px_2px_0px_#000000]'
               }`}
               title="Toggle Side-by-Side Power Comparison"
             >
               <Swords className="h-4 w-4" />
-              <span>{isCompareMode ? 'EXIT VERSUS MODE' : '⚔️ COMPARE POWER'}</span>
+              <span>{isCompareMode ? 'EXIT VERSUS' : '⚔️ COMPARE POWER'}</span>
             </button>
 
             {/* Close Button */}
             <button
               onClick={() => setSelectedProduct(null)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-black bg-[#161521] text-zinc-300 hover:text-white hover:bg-[#FF0055] transition-colors"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-black bg-[#FAF6E8] text-black hover:bg-[#FF2A2A] hover:text-white transition-colors"
               title="Close Inspector"
             >
               <X className="h-5 w-5" />
@@ -220,10 +212,10 @@ export const ProductDetailModal: React.FC = () => {
           <div className="space-y-6">
             
             {/* Top Selector Strip: Challenger Switcher */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#161521] p-3 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000000]">
-              <div className="flex items-center gap-2 text-xs font-mono-code text-zinc-300">
-                <span className="text-[#FF0055] font-bold">CHALLENGER SELECTION:</span>
-                <span className="hidden md:inline text-zinc-500">Compare against any other artifact in the vault:</span>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#FAF6E8] p-3 rounded-2xl border-3 border-black shadow-[3px_3px_0px_#000000]">
+              <div className="flex items-center gap-2 text-xs font-mono-code font-bold text-black">
+                <span className="bg-[#FF2A2A] text-white px-2 py-0.5 rounded border border-black">CHALLENGER SELECTION:</span>
+                <span className="hidden md:inline text-black/70">Pick any rival power to compare stats:</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -231,9 +223,9 @@ export const ProductDetailModal: React.FC = () => {
                   value={comparisonProduct.id}
                   onChange={(e) => {
                     setComparisonProductId(e.target.value);
-                    triggerSoundEffect('CHALLENGER SELECTED! ⚡', undefined, undefined, '#FF0055');
+                    triggerSoundEffect('CHALLENGER SELECTED! ⚡', undefined, undefined, '#FF2A2A');
                   }}
-                  className="bg-[#0B0A10] border border-[#2A2938] text-white text-xs font-mono-code px-3 py-1.5 rounded-lg focus:outline-none focus:border-[#FF0055] max-w-[280px] truncate"
+                  className="bg-white border-2 border-black text-black text-xs font-mono-code font-bold px-3 py-1.5 rounded-xl focus:outline-none max-w-[280px] truncate"
                 >
                   {PRODUCTS.filter(p => p.id !== selectedProduct.id).map(p => (
                     <option key={p.id} value={p.id}>
@@ -244,11 +236,11 @@ export const ProductDetailModal: React.FC = () => {
 
                 <button
                   onClick={handleSwapPrimaryWithChallenger}
-                  className="flex items-center gap-1 bg-[#0B0A10] hover:bg-[#2A2938] text-xs font-mono-code text-[#00F0FF] px-2.5 py-1.5 rounded-lg border border-black transition-colors"
+                  className="flex items-center gap-1 bg-[#FFE600] hover:bg-black hover:text-white text-xs font-mono-code font-bold text-black px-3 py-1.5 rounded-xl border-2 border-black transition-colors"
                   title="Swap primary and challenger roles"
                 >
                   <ArrowRightLeft className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Swap</span>
+                  <span>Swap</span>
                 </button>
               </div>
             </div>
@@ -256,104 +248,99 @@ export const ProductDetailModal: React.FC = () => {
             {/* Comparison Cards: Product A vs Product B */}
             <div className="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
               
-              {/* Product A Card (Primary - Cyan) */}
-              <div className="md:col-span-5 rounded-xl border-3 border-black bg-[#161521] p-4 shadow-[4px_4px_0px_#000000,6px_6px_0px_#00F0FF] relative overflow-hidden">
-                <div className="absolute top-2 right-2 bg-[#00F0FF] text-black font-mono-code text-[10px] font-bold px-2 py-0.5 rounded border border-black">
-                  PRIMARY SPECIMEN
-                </div>
-
-                <div className="flex gap-4 items-center">
-                  <div className="relative h-20 w-20 shrink-0 rounded-lg overflow-hidden border-2 border-black bg-black">
+              {/* Product A Card (Primary - Hero Blue) */}
+              <div className="md:col-span-5 rounded-2xl border-3 border-black bg-white p-4 shadow-[4px_4px_0px_#000000] relative overflow-hidden">
+                <div className="flex items-start gap-3">
+                  <div className="relative h-20 w-20 flex-shrink-0 rounded-xl border-2 border-black overflow-hidden bg-black">
                     <img
                       src={selectedProduct.image}
                       alt={selectedProduct.name}
                       referrerPolicy="no-referrer"
                       className="h-full w-full object-cover"
                     />
+                    <div className="absolute top-1 left-1 bg-[#0066FF] text-white text-[9px] font-mono-code font-bold px-1.5 rounded border border-black">
+                      PRIMARY
+                    </div>
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <div className="text-[10px] font-mono-code text-[#00F0FF] uppercase truncate">
+                    <div className="text-[10px] font-mono-code font-bold text-[#0066FF] uppercase truncate">
                       {selectedProduct.categoryLabel} · {selectedProduct.powerType}
                     </div>
-                    <h3 className="font-display text-xl text-white tracking-wide truncate">
+                    <h3 className="font-display text-2xl text-black tracking-wide truncate">
                       {selectedProduct.name}
                     </h3>
                     <div className="flex items-baseline gap-2 mt-1">
-                      <span className="font-mono-code text-lg font-bold text-[#F59E0B]">
+                      <span className="font-mono-code text-xl font-black text-black">
                         ${selectedProduct.price}
                       </span>
-                      <span className="text-xs font-mono-code text-[#00F0FF] font-bold">
+                      <span className="text-xs font-mono-code text-[#0066FF] font-bold">
                         {selectedProduct.powerLevel} PL
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-[#2A2938] flex items-center justify-between text-xs font-mono-code">
-                  <span className="text-zinc-400">Duration: <strong className="text-white">{selectedProduct.duration}</strong></span>
+                <div className="mt-3 pt-3 border-t-2 border-black flex items-center justify-between text-xs font-mono-code font-bold">
+                  <span className="text-black/70">Duration: <strong className="text-black">{selectedProduct.duration}</strong></span>
                   <button
                     onClick={handleAddToCart}
-                    className="flex items-center gap-1 bg-[#00F0FF] text-black font-display text-xs px-2.5 py-1 rounded border border-black shadow-[2px_2px_0px_#000000] hover:bg-[#F59E0B]"
+                    className="flex items-center gap-1 bg-[#FFE600] text-black font-display text-xs px-3 py-1.5 rounded-lg border-2 border-black shadow-[2px_2px_0px_#000000] hover:bg-[#FF2A2A] hover:text-white"
                   >
                     <ShoppingBag className="h-3 w-3" />
-                    <span>Equip to Belt</span>
+                    <span>Equip Primary</span>
                   </button>
                 </div>
               </div>
 
-              {/* Center VS Explosive Comic Badge */}
-              <div className="md:col-span-1 flex flex-col items-center justify-center my-[-8px] md:my-0 z-10">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F59E0B] text-black font-display text-xl border-3 border-black shadow-[3px_3px_0px_#000000] rotate-[-6deg] animate-pulse">
+              {/* Center VS Burst Badge */}
+              <div className="md:col-span-1 flex justify-center py-2 md:py-0">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FF2A2A] text-white font-display text-lg border-3 border-black shadow-[3px_3px_0px_#000000] rotate-12">
                   VS
-                </div>
-                <div className="hidden md:block text-[9px] font-mono-code text-zinc-500 mt-1">
-                  MATCHUP
                 </div>
               </div>
 
-              {/* Product B Card (Challenger - Magenta) */}
-              <div className="md:col-span-5 rounded-xl border-3 border-black bg-[#161521] p-4 shadow-[4px_4px_0px_#000000,6px_6px_0px_#FF0055] relative overflow-hidden">
-                <div className="absolute top-2 right-2 bg-[#FF0055] text-white font-mono-code text-[10px] font-bold px-2 py-0.5 rounded border border-black">
-                  CHALLENGER
-                </div>
-
-                <div className="flex gap-4 items-center">
-                  <div className="relative h-20 w-20 shrink-0 rounded-lg overflow-hidden border-2 border-black bg-black">
+              {/* Product B Card (Challenger - Comic Red) */}
+              <div className="md:col-span-5 rounded-2xl border-3 border-black bg-[#FAF6E8] p-4 shadow-[4px_4px_0px_#000000] relative overflow-hidden">
+                <div className="flex items-start gap-3">
+                  <div className="relative h-20 w-20 flex-shrink-0 rounded-xl border-2 border-black overflow-hidden bg-black">
                     <img
                       src={comparisonProduct.image}
                       alt={comparisonProduct.name}
                       referrerPolicy="no-referrer"
                       className="h-full w-full object-cover"
                     />
+                    <div className="absolute top-1 left-1 bg-[#FF2A2A] text-white text-[9px] font-mono-code font-bold px-1.5 rounded border border-black">
+                      RIVAL
+                    </div>
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <div className="text-[10px] font-mono-code text-[#FF0055] uppercase truncate">
+                    <div className="text-[10px] font-mono-code font-bold text-[#FF2A2A] uppercase truncate">
                       {comparisonProduct.categoryLabel} · {comparisonProduct.powerType}
                     </div>
-                    <h3 className="font-display text-xl text-white tracking-wide truncate">
+                    <h3 className="font-display text-2xl text-black tracking-wide truncate">
                       {comparisonProduct.name}
                     </h3>
                     <div className="flex items-baseline gap-2 mt-1">
-                      <span className="font-mono-code text-lg font-bold text-[#F59E0B]">
+                      <span className="font-mono-code text-xl font-black text-black">
                         ${comparisonProduct.price}
                       </span>
-                      <span className="text-xs font-mono-code text-[#FF0055] font-bold">
+                      <span className="text-xs font-mono-code text-[#FF2A2A] font-bold">
                         {comparisonProduct.powerLevel} PL
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-[#2A2938] flex items-center justify-between text-xs font-mono-code">
-                  <span className="text-zinc-400">Duration: <strong className="text-white">{comparisonProduct.duration}</strong></span>
+                <div className="mt-3 pt-3 border-t-2 border-black flex items-center justify-between text-xs font-mono-code font-bold">
+                  <span className="text-black/70">Duration: <strong className="text-black">{comparisonProduct.duration}</strong></span>
                   <button
                     onClick={handleAddChallengerToCart}
-                    className="flex items-center gap-1 bg-[#FF0055] text-white font-display text-xs px-2.5 py-1 rounded border border-black shadow-[2px_2px_0px_#000000] hover:bg-[#FF0033]"
+                    className="flex items-center gap-1 bg-[#FF2A2A] text-white font-display text-xs px-3 py-1.5 rounded-lg border-2 border-black shadow-[2px_2px_0px_#000000] hover:bg-black"
                   >
                     <ShoppingBag className="h-3 w-3" />
-                    <span>Equip Challenger</span>
+                    <span>Equip Rival</span>
                   </button>
                 </div>
               </div>
@@ -361,26 +348,26 @@ export const ProductDetailModal: React.FC = () => {
             </div>
 
             {/* Visual Radar Overlay Matrix & Comparative Breakdown */}
-            <div className="rounded-xl border-3 border-black bg-[#161521] p-5 shadow-[6px_6px_0px_#000000]">
+            <div className="rounded-2xl border-3 border-black bg-white p-5 shadow-[5px_5px_0px_#000000]">
               
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[#2A2938]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b-2 border-black">
                 <div>
-                  <div className="text-xs font-mono-code text-[#F59E0B] uppercase flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    <span>OVERLAY RADAR TELEMETRY // 5 AXES OF COMBAT READINESS</span>
+                  <div className="text-xs font-mono-code font-bold text-black uppercase flex items-center gap-1.5">
+                    <Sparkles className="h-3.5 w-3.5 text-[#FF2A2A]" />
+                    <span>OVERLAY RADAR CHART // 5 AXES OF COMBAT READINESS</span>
                   </div>
-                  <h4 className="font-display text-xl text-white tracking-wide mt-0.5">
+                  <h4 className="font-display text-2xl text-black tracking-wide mt-0.5">
                     DIAGNOSTIC STAT COMPARISON & OVERLAY
                   </h4>
                 </div>
 
                 {/* Score Tally Indicator */}
-                <div className="flex items-center gap-3 text-xs font-mono-code">
-                  <div className="bg-[#0B0A10] px-3 py-1.5 rounded-lg border border-black">
-                    <span className="text-[#00F0FF] font-bold">{selectedProduct.name.split(' ')[0]}</span> leads: <strong className="text-white">{winsA}</strong>
+                <div className="flex items-center gap-3 text-xs font-mono-code font-bold">
+                  <div className="bg-[#FAF6E8] px-3 py-1.5 rounded-xl border-2 border-black">
+                    <span className="text-[#0066FF] font-bold">{selectedProduct.name.split(' ')[0]}</span> leads: <strong className="text-black">{winsA}</strong>
                   </div>
-                  <div className="bg-[#0B0A10] px-3 py-1.5 rounded-lg border border-black">
-                    <span className="text-[#FF0055] font-bold">{comparisonProduct.name.split(' ')[0]}</span> leads: <strong className="text-white">{winsB}</strong>
+                  <div className="bg-[#FAF6E8] px-3 py-1.5 rounded-xl border-2 border-black">
+                    <span className="text-[#FF2A2A] font-bold">{comparisonProduct.name.split(' ')[0]}</span> leads: <strong className="text-black">{winsB}</strong>
                   </div>
                 </div>
               </div>
@@ -392,10 +379,10 @@ export const ProductDetailModal: React.FC = () => {
                   <div className="relative">
                     <svg width="220" height="220" viewBox="0 0 220 220" className="overflow-visible">
                       {/* Outer & inner concentric reference rings */}
-                      <circle cx={centerX} cy={centerY} r={radius} fill="none" stroke="#2A2938" strokeWidth="1" strokeDasharray="3 3" />
-                      <circle cx={centerX} cy={centerY} r={radius * 0.75} fill="none" stroke="#2A2938" strokeWidth="1" />
-                      <circle cx={centerX} cy={centerY} r={radius * 0.5} fill="none" stroke="#2A2938" strokeWidth="1" />
-                      <circle cx={centerX} cy={centerY} r={radius * 0.25} fill="none" stroke="#2A2938" strokeWidth="1" />
+                      <circle cx={centerX} cy={centerY} r={radius} fill="none" stroke="#000000" strokeWidth="1.5" strokeDasharray="3 3" />
+                      <circle cx={centerX} cy={centerY} r={radius * 0.75} fill="none" stroke="#000000" strokeWidth="1" />
+                      <circle cx={centerX} cy={centerY} r={radius * 0.5} fill="none" stroke="#000000" strokeWidth="1" />
+                      <circle cx={centerX} cy={centerY} r={radius * 0.25} fill="none" stroke="#000000" strokeWidth="1" />
 
                       {/* 5 Axis spokes */}
                       {statKeys.map((s, idx) => {
@@ -409,29 +396,29 @@ export const ProductDetailModal: React.FC = () => {
                             y1={centerY}
                             x2={x}
                             y2={y}
-                            stroke="#2A2938"
+                            stroke="#000000"
                             strokeWidth="1"
                           />
                         );
                       })}
 
-                      {/* PRIMARY PRODUCT POLYGON (Cyan #00F0FF) */}
+                      {/* PRIMARY PRODUCT POLYGON (Hero Blue #0066FF) */}
                       <polygon
                         points={polygonPointsA}
-                        fill="rgba(0, 240, 255, 0.24)"
-                        stroke="#00F0FF"
-                        strokeWidth="2.5"
+                        fill="rgba(0, 102, 255, 0.25)"
+                        stroke="#0066FF"
+                        strokeWidth="3"
                       />
 
-                      {/* CHALLENGER PRODUCT POLYGON (Magenta #FF0055) */}
+                      {/* CHALLENGER PRODUCT POLYGON (Comic Red #FF2A2A) */}
                       <polygon
                         points={polygonPointsB}
-                        fill="rgba(255, 0, 85, 0.24)"
-                        stroke="#FF0055"
-                        strokeWidth="2.5"
+                        fill="rgba(255, 42, 42, 0.25)"
+                        stroke="#FF2A2A"
+                        strokeWidth="3"
                       />
 
-                      {/* Primary Vertices (Cyan) */}
+                      {/* Primary Vertices (Blue) */}
                       {statKeys.map((s, idx) => {
                         const angle = (Math.PI * 2 / 5) * idx - Math.PI / 2;
                         const r = (s.valA / 100) * radius;
@@ -443,14 +430,14 @@ export const ProductDetailModal: React.FC = () => {
                             cx={x}
                             cy={y}
                             r="4.5"
-                            fill="#00F0FF"
+                            fill="#0066FF"
                             stroke="#000000"
                             strokeWidth="1.5"
                           />
                         );
                       })}
 
-                      {/* Challenger Vertices (Magenta) */}
+                      {/* Challenger Vertices (Red) */}
                       {statKeys.map((s, idx) => {
                         const angle = (Math.PI * 2 / 5) * idx - Math.PI / 2;
                         const r = (s.valB / 100) * radius;
@@ -462,30 +449,49 @@ export const ProductDetailModal: React.FC = () => {
                             cx={x}
                             cy={y}
                             r="4.5"
-                            fill="#FF0055"
+                            fill="#FF2A2A"
                             stroke="#000000"
                             strokeWidth="1.5"
                           />
                         );
                       })}
+
+                      {/* Labels on perimeter */}
+                      {statKeys.map((s, idx) => {
+                        const angle = (Math.PI * 2 / 5) * idx - Math.PI / 2;
+                        const labelRadius = radius + 22;
+                        const x = centerX + labelRadius * Math.cos(angle);
+                        const y = centerY + labelRadius * Math.sin(angle);
+                        return (
+                          <text
+                            key={`label-${s.key}`}
+                            x={x}
+                            y={y + 4}
+                            textAnchor="middle"
+                            className="font-mono-code text-[10px] font-black fill-black"
+                          >
+                            {s.label}
+                          </text>
+                        );
+                      })}
                     </svg>
                   </div>
 
-                  {/* Radar Color Key Legend */}
-                  <div className="flex items-center gap-6 mt-4 text-xs font-mono-code">
+                  {/* Legend Indicator */}
+                  <div className="mt-4 flex items-center gap-4 text-xs font-mono-code font-bold">
                     <div className="flex items-center gap-2">
-                      <span className="h-3 w-3 rounded-full bg-[#00F0FF] border border-black shadow-sm" />
-                      <span className="text-[#00F0FF] font-bold truncate max-w-[130px]">{selectedProduct.name}</span>
+                      <span className="h-3 w-3 rounded-full bg-[#0066FF] border border-black shadow-sm" />
+                      <span className="text-[#0066FF] truncate max-w-[130px]">{selectedProduct.name}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="h-3 w-3 rounded-full bg-[#FF0055] border border-black shadow-sm" />
-                      <span className="text-[#FF0055] font-bold truncate max-w-[130px]">{comparisonProduct.name}</span>
+                      <span className="h-3 w-3 rounded-full bg-[#FF2A2A] border border-black shadow-sm" />
+                      <span className="text-[#FF2A2A] truncate max-w-[130px]">{comparisonProduct.name}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Comparative Stat Delta Rows (Columns 6-12) */}
-                <div className="lg:col-span-7 space-y-3">
+                <div className="lg:col-span-7 space-y-3 font-mono-code font-bold">
                   {statKeys.map((s) => {
                     const delta = s.valA - s.valB;
                     const aWins = delta > 0;
@@ -493,46 +499,46 @@ export const ProductDetailModal: React.FC = () => {
                     return (
                       <div
                         key={s.key}
-                        className="rounded-lg bg-[#0B0A10] p-3 border border-[#2A2938]"
+                        className="rounded-xl bg-[#FAF6E8] p-3 border-2 border-black"
                       >
-                        <div className="flex items-center justify-between text-xs font-mono-code mb-1.5">
-                          <span className="font-bold text-white flex items-center gap-1.5">
+                        <div className="flex items-center justify-between text-xs mb-1.5">
+                          <span className="font-bold text-black flex items-center gap-1.5">
                             <span>{s.label}</span>
                             {aWins && (
-                              <span className="text-[10px] text-[#00F0FF] bg-[#00F0FF]/15 px-1.5 rounded">
-                                +{delta} {selectedProduct.name.split(' ')[0]} ADVANTAGE
+                              <span className="text-[10px] text-white bg-[#0066FF] px-1.5 py-0.5 rounded border border-black">
+                                +{delta} {selectedProduct.name.split(' ')[0]} LEAD
                               </span>
                             )}
                             {bWins && (
-                              <span className="text-[10px] text-[#FF0055] bg-[#FF0055]/15 px-1.5 rounded">
-                                +{Math.abs(delta)} {comparisonProduct.name.split(' ')[0]} ADVANTAGE
+                              <span className="text-[10px] text-white bg-[#FF2A2A] px-1.5 py-0.5 rounded border border-black">
+                                +{Math.abs(delta)} {comparisonProduct.name.split(' ')[0]} LEAD
                               </span>
                             )}
                             {delta === 0 && (
-                              <span className="text-[10px] text-zinc-400 bg-zinc-800 px-1.5 rounded">
-                                BALANCED MATCH
+                              <span className="text-[10px] text-black bg-[#FFE600] px-1.5 py-0.5 rounded border border-black">
+                                TIED STATS
                               </span>
                             )}
                           </span>
 
                           <div className="flex items-center gap-2">
-                            <span className="text-[#00F0FF] font-bold">{s.valA}%</span>
-                            <span className="text-zinc-600">vs</span>
-                            <span className="text-[#FF0055] font-bold">{s.valB}%</span>
+                            <span className="text-[#0066FF] font-bold">{s.valA}%</span>
+                            <span className="text-black/50">vs</span>
+                            <span className="text-[#FF2A2A] font-bold">{s.valB}%</span>
                           </div>
                         </div>
 
                         {/* Dual Comparative Progress Bars */}
                         <div className="grid grid-cols-2 gap-2">
-                          <div className="h-2 w-full bg-[#161521] rounded overflow-hidden border border-black">
+                          <div className="h-2.5 w-full bg-white rounded-full overflow-hidden border border-black">
                             <div
-                              className="h-full bg-[#00F0FF] transition-all duration-300"
+                              className="h-full bg-[#0066FF] transition-all duration-300"
                               style={{ width: `${s.valA}%` }}
                             />
                           </div>
-                          <div className="h-2 w-full bg-[#161521] rounded overflow-hidden border border-black">
+                          <div className="h-2.5 w-full bg-white rounded-full overflow-hidden border border-black">
                             <div
-                              className="h-full bg-[#FF0055] transition-all duration-300"
+                              className="h-full bg-[#FF2A2A] transition-all duration-300"
                               style={{ width: `${s.valB}%` }}
                             />
                           </div>
@@ -542,17 +548,17 @@ export const ProductDetailModal: React.FC = () => {
                   })}
 
                   {/* Overall Power Level Delta */}
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#00F0FF]/15 via-[#161521] to-[#FF0055]/15 border border-black font-mono-code text-xs">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-[#FFE600] border-2 border-black text-xs">
                     <div>
-                      <span className="text-zinc-400">TOTAL ENERGY DELTA:</span>{' '}
-                      <strong className="text-white">
+                      <span className="text-black/80">OVERALL POWER OUTPUT:</span>{' '}
+                      <strong className="text-black">
                         {selectedProduct.powerLevel} PL vs {comparisonProduct.powerLevel} PL
                       </strong>
                     </div>
-                    <div className="font-bold text-[#F59E0B]">
+                    <div className="font-black text-[#FF2A2A]">
                       {selectedProduct.powerLevel >= comparisonProduct.powerLevel
                         ? `+${selectedProduct.powerLevel - comparisonProduct.powerLevel} PL (Primary Lead)`
-                        : `+${comparisonProduct.powerLevel - selectedProduct.powerLevel} PL (Challenger Lead)`}
+                        : `+${comparisonProduct.powerLevel - selectedProduct.powerLevel} PL (Rival Lead)`}
                     </div>
                   </div>
                 </div>
@@ -564,7 +570,7 @@ export const ProductDetailModal: React.FC = () => {
             <div className="flex justify-end pt-2">
               <button
                 onClick={() => setIsCompareMode(false)}
-                className="px-5 py-2.5 rounded-xl bg-[#161521] text-zinc-300 hover:text-white border-2 border-black shadow-[3px_3px_0px_#000000] font-mono-code text-xs transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-white text-black hover:bg-[#FFE600] border-2 border-black shadow-[3px_3px_0px_#000000] font-mono-code font-bold text-xs transition-colors"
               >
                 ← Return to Single Specimen Detailed Specs
               </button>
@@ -580,9 +586,9 @@ export const ProductDetailModal: React.FC = () => {
             {/* ================= LEFT: POKEMON FOIL CARD INSPECTOR (Columns 1-5) ================= */}
             <div className="lg:col-span-5 flex flex-col items-center">
               
-              <div className="text-xs font-mono-code text-zinc-400 mb-2 flex items-center gap-1.5">
-                <Sparkles className="h-3.5 w-3.5 text-[#F59E0B]" />
-                <span>HOLOGRAPHIC FOIL INSPECTOR · MOVE CURSOR TO TILT</span>
+              <div className="text-xs font-mono-code font-bold text-black mb-2 flex items-center gap-1.5">
+                <Sparkles className="h-3.5 w-3.5 text-[#FF2A2A]" />
+                <span>OFFICIAL TRADING CARD · MOVE CURSOR TO TILT FOIL</span>
               </div>
 
               {/* 3D Tilted Pokemon Card */}
@@ -590,26 +596,25 @@ export const ProductDetailModal: React.FC = () => {
                 ref={cardRef}
                 onMouseMove={handleCardMouseMove}
                 onMouseLeave={handleCardMouseLeave}
-                className="relative w-full max-w-sm rounded-2xl border-4 border-black bg-[#161521] p-3 shadow-[6px_6px_0px_#000000] cursor-grab transition-transform duration-100 ease-out select-none"
+                className="relative w-full max-w-sm rounded-2xl border-4 border-black bg-white p-3 shadow-[6px_6px_0px_#000000] cursor-grab transition-transform duration-100 ease-out select-none"
                 style={{
-                  transform: `perspective(1000px) rotateX(${cardRotation.x}deg) rotateY(${cardRotation.y}deg)`,
-                  background: 'linear-gradient(145deg, #1f1d2e 0%, #161521 100%)'
+                  transform: `perspective(1000px) rotateX(${cardRotation.x}deg) rotateY(${cardRotation.y}deg)`
                 }}
               >
                 {/* Foil Card Header */}
-                <div className="flex items-center justify-between border-b-2 border-black pb-2 mb-2">
+                <div className="flex items-center justify-between border-b-2 border-black pb-2 mb-2 bg-[#FAF6E8] p-2 rounded-lg">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-display text-lg text-white tracking-wide">
+                    <span className="font-display text-xl text-black tracking-wide">
                       {selectedProduct.name}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 font-mono-code text-xs font-bold text-[#F59E0B]">
+                  <div className="flex items-center gap-1 font-mono-code text-xs font-bold text-black">
                     <span>HP</span>
-                    <span className="text-white text-sm">{selectedProduct.powerLevel}</span>
+                    <span className="bg-[#FFE600] px-1.5 py-0.2 rounded border border-black text-[#FF2A2A] font-black">{selectedProduct.powerLevel}</span>
                   </div>
                 </div>
 
-                {/* Card Foil Artwork Box */}
+                {/* Card Artwork Box */}
                 <div className="relative aspect-square w-full rounded-xl border-3 border-black overflow-hidden bg-black mb-3">
                   <img
                     src={selectedProduct.image}
@@ -622,42 +627,42 @@ export const ProductDetailModal: React.FC = () => {
                   <div className="holo-card-overlay absolute inset-0 opacity-40 animate-pulse" />
 
                   {/* Rarity Stamp */}
-                  <div className="absolute top-2 left-2 bg-black/85 px-2 py-0.5 rounded text-[10px] font-mono-code text-[#00F0FF] border border-black">
+                  <div className="absolute top-2 left-2 bg-[#FFE600] px-2 py-0.5 rounded text-[10px] font-mono-code font-bold text-black border border-black">
                     {selectedProduct.rarity}
                   </div>
 
-                  <div className="absolute bottom-2 right-2 bg-black/85 px-2 py-0.5 rounded text-[10px] font-mono-code text-[#F59E0B] border border-black">
+                  <div className="absolute bottom-2 right-2 bg-white px-2 py-0.5 rounded text-[10px] font-mono-code font-bold text-black border border-black">
                     {selectedProduct.categoryLabel}
                   </div>
                 </div>
 
-                {/* Pokemon Style Attack / Ability Moves */}
+                {/* Comic / Manga Style Attack / Ability Moves */}
                 <div className="space-y-2 border-t-2 border-black pt-2 text-xs">
-                  <div className="bg-[#0B0A10] p-2 rounded border border-black">
-                    <div className="flex items-center justify-between font-mono-code text-[11px] text-[#00F0FF] font-bold">
-                      <span>ACTION 1: RESONANT SURGE</span>
-                      <span className="text-[#F59E0B]">120 DMG</span>
+                  <div className="bg-[#FAF6E8] p-2 rounded-lg border-2 border-black">
+                    <div className="flex items-center justify-between font-mono-code text-[11px] text-black font-bold">
+                      <span>★ MOVE 1: RESONANT SURGE</span>
+                      <span className="bg-[#FFE600] px-1.5 rounded border border-black text-[#FF2A2A]">120 DMG</span>
                     </div>
-                    <div className="text-[11px] text-zinc-300 mt-0.5">
+                    <div className="text-[11px] text-black/80 mt-0.5 font-medium">
                       Channels {selectedProduct.powerType} into localized radius.
                     </div>
                   </div>
 
-                  <div className="bg-[#0B0A10] p-2 rounded border border-black">
-                    <div className="flex items-center justify-between font-mono-code text-[11px] text-[#FF0055] font-bold">
-                      <span>OVERCHARGE ABILITY</span>
-                      <span className="text-white">{selectedProduct.stats.power * 2} PL</span>
+                  <div className="bg-[#FAF6E8] p-2 rounded-lg border-2 border-black">
+                    <div className="flex items-center justify-between font-mono-code text-[11px] text-black font-bold">
+                      <span>⚡ OVERCHARGE SPECIAL</span>
+                      <span className="text-[#FF2A2A]">{selectedProduct.stats.power * 2} PL</span>
                     </div>
-                    <div className="text-[11px] text-zinc-300 mt-0.5">
+                    <div className="text-[11px] text-black/80 mt-0.5 font-medium">
                       {selectedProduct.duration}
                     </div>
                   </div>
                 </div>
 
                 {/* Card Footer Stamp */}
-                <div className="mt-2 pt-2 border-t border-[#2A2938] flex items-center justify-between text-[10px] font-mono-code text-zinc-400">
-                  <span>SECTOR 0 // NO. {selectedProduct.id.slice(-4).toUpperCase()}</span>
-                  <span>★ 3042 FOIL 1ST ED</span>
+                <div className="mt-2 pt-2 border-t border-black/40 flex items-center justify-between text-[10px] font-mono-code font-bold text-black/70">
+                  <span>ISSUE NO. {selectedProduct.id.slice(-4).toUpperCase()}</span>
+                  <span>★ OFFICIAL COMIC FOIL 1ST ED</span>
                 </div>
               </div>
 
@@ -667,20 +672,20 @@ export const ProductDetailModal: React.FC = () => {
                   onClick={handleEquip}
                   className={`w-full py-2.5 px-4 rounded-xl border-2 border-black font-display text-sm tracking-wider flex items-center justify-center gap-2 transition-all ${
                     isEquipped
-                      ? 'bg-[#10B981] text-black shadow-[3px_3px_0px_#000000]'
-                      : 'bg-[#161521] text-white hover:bg-[#8B5CF6] hover:text-black shadow-[3px_3px_0px_#000000]'
+                      ? 'bg-[#00D06C] text-black shadow-[3px_3px_0px_#000000]'
+                      : 'bg-[#FFE600] text-black hover:bg-[#FF2A2A] hover:text-white shadow-[3px_3px_0px_#000000]'
                   }`}
                 >
                   <Zap className="h-4 w-4" />
-                  <span>{isEquipped ? '✓ POWER CURRENTLY EQUIPPED IN DOSSIER' : '⚡ EQUIP TO ACTIVE HERO LOADOUT'}</span>
+                  <span>{isEquipped ? '✓ POWER CURRENTLY EQUIPPED ON BELT' : '⚡ EQUIP TO HERO LOADOUT'}</span>
                 </button>
 
                 {/* Compare CTA under Pokemon card */}
                 <button
                   onClick={handleToggleCompare}
-                  className="w-full py-2 px-4 rounded-xl border border-black bg-[#161521] text-xs font-mono-code text-[#00F0FF] hover:bg-[#00F0FF] hover:text-black flex items-center justify-center gap-1.5 transition-colors"
+                  className="w-full py-2 px-4 rounded-xl border-2 border-black bg-white text-xs font-mono-code font-bold text-black hover:bg-[#FFE600] flex items-center justify-center gap-1.5 transition-colors shadow-[2px_2px_0px_#000000]"
                 >
-                  <Swords className="h-3.5 w-3.5" />
+                  <Swords className="h-3.5 w-3.5 text-[#FF2A2A]" />
                   <span>Compare with rival power in radar matrix →</span>
                 </button>
               </div>
@@ -692,56 +697,56 @@ export const ProductDetailModal: React.FC = () => {
               
               {/* Header info */}
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono-code text-[#00F0FF] mb-1">
-                  <span>{selectedProduct.categoryLabel}</span>
+                <div className="flex items-center gap-2 text-xs font-mono-code font-bold text-black mb-1">
+                  <span className="uppercase text-[#FF2A2A]">{selectedProduct.categoryLabel}</span>
                   <span>·</span>
-                  <span className="text-[#F59E0B]">{selectedProduct.rarity}</span>
+                  <span className="bg-[#FFE600] px-1.5 rounded border border-black text-[10px]">{selectedProduct.rarity}</span>
                   <span>·</span>
                   <span>{selectedProduct.magicType}</span>
                 </div>
-                <h2 className="font-display text-3xl sm:text-4xl text-white tracking-wide">
+                <h2 className="font-display text-4xl sm:text-5xl text-black tracking-wide leading-tight">
                   {selectedProduct.name}
                 </h2>
-                <p className="text-sm font-medium text-zinc-300 mt-1">
-                  {selectedProduct.tagline}
+                <p className="text-sm font-bold text-black/80 mt-1 bg-[#FFF7B2] p-2 rounded-lg border border-black font-mono-code">
+                  &ldquo;{selectedProduct.tagline}&rdquo;
                 </p>
 
                 {/* Price & Rating Bar */}
-                <div className="flex flex-wrap items-center gap-4 mt-3 pt-3 border-t border-[#2A2938]">
+                <div className="flex flex-wrap items-center gap-4 mt-3 pt-3 border-t-2 border-black">
                   <div className="flex items-baseline gap-2">
-                    <span className="font-mono-code text-3xl font-bold text-[#F59E0B]">
+                    <span className="bg-[#FFE600] px-3 py-1 rounded-xl border-2 border-black font-mono-code text-3xl font-black text-black shadow-[3px_3px_0px_#000000]">
                       ${selectedProduct.price}
                     </span>
                     {selectedProduct.originalPrice && (
-                      <span className="font-mono-code text-sm text-zinc-500 line-through">
+                      <span className="font-mono-code text-base text-black/50 line-through">
                         ${selectedProduct.originalPrice}
                       </span>
                     )}
                   </div>
 
-                  <div className="flex items-center gap-1.5 bg-[#161521] px-2.5 py-1 rounded border border-[#2A2938] text-xs font-mono-code text-zinc-300">
-                    <Star className="h-3.5 w-3.5 fill-[#F59E0B] text-[#F59E0B]" />
-                    <span className="font-bold">{selectedProduct.rating}</span>
-                    <span className="text-zinc-500">({selectedProduct.reviewCount} transmissions)</span>
+                  <div className="flex items-center gap-1.5 bg-[#FAF6E8] px-3 py-1.5 rounded-xl border-2 border-black text-xs font-mono-code font-bold text-black">
+                    <Star className="h-4 w-4 fill-[#FFE600] text-black" />
+                    <span>{selectedProduct.rating} / 5.0</span>
+                    <span className="text-black/60">({selectedProduct.reviewCount} hero reviews)</span>
                   </div>
 
-                  <div className="text-xs font-mono-code text-[#10B981] flex items-center gap-1">
-                    <ShieldCheck className="h-3.5 w-3.5" />
-                    <span>Licensed Gene-X Safe</span>
+                  <div className="text-xs font-mono-code font-bold text-[#0066FF] flex items-center gap-1 bg-white px-2.5 py-1 rounded border border-black">
+                    <ShieldCheck className="h-4 w-4" />
+                    <span>100% Genuine Superpower</span>
                   </div>
                 </div>
               </div>
 
               {/* Radar Chart & Stat Breakdown */}
-              <div className="rounded-xl border-2 border-black bg-[#161521] p-4 shadow-[3px_3px_0px_#000000]">
-                <div className="text-xs font-mono-code text-[#00F0FF] uppercase mb-3 flex items-center justify-between">
-                  <span>SUPERPOWER STAT RADAR (SCALE 0 - 100)</span>
+              <div className="rounded-2xl border-3 border-black bg-[#FAF6E8] p-4 shadow-[4px_4px_0px_#000000]">
+                <div className="text-xs font-mono-code font-bold text-black uppercase mb-3 flex items-center justify-between border-b-2 border-black pb-2">
+                  <span>SUPERPOWER BATTLE STATS (SCALE 0 - 100)</span>
                   <button
                     onClick={handleToggleCompare}
-                    className="text-[#F59E0B] hover:underline flex items-center gap-1"
+                    className="text-[#FF2A2A] hover:underline flex items-center gap-1 font-bold"
                   >
-                    <Swords className="h-3 w-3" />
-                    <span>Overlay rival power</span>
+                    <Swords className="h-3.5 w-3.5" />
+                    <span>Compare with rival</span>
                   </button>
                 </div>
 
@@ -750,16 +755,16 @@ export const ProductDetailModal: React.FC = () => {
                   <div className="flex justify-center">
                     <svg width="180" height="180" viewBox="0 0 220 220" className="overflow-visible">
                       {/* Concentric rings */}
-                      <circle cx={centerX} cy={centerY} r={radius} fill="none" stroke="#2A2938" strokeWidth="1" strokeDasharray="3 3" />
-                      <circle cx={centerX} cy={centerY} r={radius * 0.65} fill="none" stroke="#2A2938" strokeWidth="1" />
-                      <circle cx={centerX} cy={centerY} r={radius * 0.3} fill="none" stroke="#2A2938" strokeWidth="1" />
+                      <circle cx={centerX} cy={centerY} r={radius} fill="none" stroke="#000000" strokeWidth="1.5" strokeDasharray="3 3" />
+                      <circle cx={centerX} cy={centerY} r={radius * 0.65} fill="none" stroke="#000000" strokeWidth="1" />
+                      <circle cx={centerX} cy={centerY} r={radius * 0.3} fill="none" stroke="#000000" strokeWidth="1" />
                       
                       {/* Stat Polygon */}
                       <polygon
                         points={polygonPointsA}
-                        fill="rgba(0, 240, 255, 0.25)"
-                        stroke="#00F0FF"
-                        strokeWidth="2.5"
+                        fill="rgba(0, 102, 255, 0.25)"
+                        stroke="#0066FF"
+                        strokeWidth="3"
                       />
 
                       {/* Stat Points */}
@@ -769,23 +774,23 @@ export const ProductDetailModal: React.FC = () => {
                         const x = centerX + r * Math.cos(angle);
                         const y = centerY + r * Math.sin(angle);
                         return (
-                          <circle key={s.key} cx={x} cy={y} r="4.5" fill="#F59E0B" stroke="#000000" strokeWidth="1.5" />
+                          <circle key={s.key} cx={x} cy={y} r="5" fill="#FFE600" stroke="#000000" strokeWidth="2" />
                         );
                       })}
                     </svg>
                   </div>
 
                   {/* Stat Progress Bars */}
-                  <div className="space-y-1.5 text-xs font-mono-code">
+                  <div className="space-y-2 text-xs font-mono-code font-bold">
                     {statKeys.map((s) => (
                       <div key={s.key}>
-                        <div className="flex justify-between text-[11px] text-zinc-300">
+                        <div className="flex justify-between text-[11px] text-black mb-0.5">
                           <span>{s.label}</span>
-                          <span className="text-[#00F0FF]">{s.valA}%</span>
+                          <span className="text-[#0066FF]">{s.valA}%</span>
                         </div>
-                        <div className="h-1.5 w-full bg-[#0B0A10] rounded-full overflow-hidden border border-black">
+                        <div className="h-2 w-full bg-white rounded-full overflow-hidden border border-black">
                           <div
-                            className="h-full bg-gradient-to-r from-[#00F0FF] to-[#FF0055]"
+                            className="h-full bg-[#FFE600] border-r border-black"
                             style={{ width: `${s.valA}%` }}
                           />
                         </div>
@@ -796,70 +801,66 @@ export const ProductDetailModal: React.FC = () => {
               </div>
 
               {/* Core Specifications Table */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono-code">
-                <div className="bg-[#161521] p-2.5 rounded border border-[#2A2938]">
-                  <div className="text-zinc-500 text-[10px]">POWER TYPE</div>
-                  <div className="text-white font-bold truncate">{selectedProduct.powerType}</div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono-code font-bold">
+                <div className="bg-white p-2.5 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000000]">
+                  <div className="text-black/60 text-[10px]">POWER TYPE</div>
+                  <div className="text-black truncate">{selectedProduct.powerType}</div>
                 </div>
-                <div className="bg-[#161521] p-2.5 rounded border border-[#2A2938]">
-                  <div className="text-zinc-500 text-[10px]">DURATION</div>
-                  <div className="text-white font-bold truncate">{selectedProduct.duration}</div>
+                <div className="bg-white p-2.5 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000000]">
+                  <div className="text-black/60 text-[10px]">DURATION</div>
+                  <div className="text-black truncate">{selectedProduct.duration}</div>
                 </div>
-                <div className="bg-[#161521] p-2.5 rounded border border-[#2A2938]">
-                  <div className="text-zinc-500 text-[10px]">MAGIC TYPE</div>
-                  <div className="text-white font-bold truncate">{selectedProduct.magicType}</div>
+                <div className="bg-white p-2.5 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000000]">
+                  <div className="text-black/60 text-[10px]">MAGIC TYPE</div>
+                  <div className="text-black truncate">{selectedProduct.magicType}</div>
                 </div>
-                <div className="bg-[#161521] p-2.5 rounded border border-[#2A2938]">
-                  <div className="text-zinc-500 text-[10px]">ORIGIN</div>
-                  <div className="text-white font-bold truncate">{selectedProduct.originDimension || 'Sector 7'}</div>
+                <div className="bg-white p-2.5 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000000]">
+                  <div className="text-black/60 text-[10px]">LAB ORIGIN</div>
+                  <div className="text-black truncate">{selectedProduct.originDimension || 'Sector 7'}</div>
                 </div>
               </div>
 
               {/* Description & How it Works */}
-              <div className="space-y-3 text-xs text-zinc-300 leading-relaxed border-t border-[#2A2938] pt-4">
+              <div className="space-y-3 text-xs text-black/90 font-medium leading-relaxed border-t-2 border-black pt-4">
                 <div>
-                  <strong className="text-white font-display text-sm tracking-wide block mb-1">
-                    POWER OVERVIEW:
+                  <strong className="text-black font-display text-base tracking-wide block mb-1">
+                    WHAT THIS POWER DOES:
                   </strong>
                   <p>{selectedProduct.description}</p>
                 </div>
 
                 <div>
-                  <strong className="text-[#00F0FF] font-mono-code text-xs block mb-1">
-                    HOW IT WORKS:
+                  <strong className="text-[#FF2A2A] font-mono-code font-bold text-xs block mb-1">
+                    HOW TO USE IT:
                   </strong>
                   <p>{selectedProduct.howItWorks}</p>
                 </div>
 
                 <div>
-                  <strong className="text-[#F59E0B] font-mono-code text-xs block mb-1">
-                    LABORATORY SPECS:
+                  <strong className="text-black font-mono-code font-bold text-xs block mb-1">
+                    LABORATORY FORMULA SPECS:
                   </strong>
-                  <ul className="list-disc pl-4 space-y-1 text-zinc-400">
+                  <ul className="list-disc pl-4 space-y-1 text-black/80 font-mono-code">
                     {selectedProduct.powerSpecs.map((spec, i) => (
                       <li key={i}>{spec}</li>
                     ))}
                   </ul>
                 </div>
-
-                <div className="bg-[#161521] p-3 rounded border border-[#2A2938] text-[11px] text-zinc-400 italic">
-                  “{selectedProduct.storyLore}”
-                </div>
               </div>
 
               {/* Purchase Module: Variant, Quantity, Add to Cart */}
-              <div className="border-t-2 border-black pt-4 space-y-4">
+              <div className="border-t-3 border-black pt-4 space-y-4">
                 
                 {/* Variant Selector */}
                 {selectedProduct.variants && selectedProduct.variants.length > 0 && (
                   <div>
-                    <label className="block text-[11px] font-mono-code text-zinc-400 mb-1">
-                      SELECT PHYSICAL CALIBRATION / VARIANT:
+                    <label className="block text-[11px] font-mono-code font-bold text-black mb-1">
+                      CHOOSE MODEL / EDITIONS:
                     </label>
                     <select
                       value={currentVariant}
                       onChange={(e) => setSelectedVariant(e.target.value)}
-                      className="w-full bg-[#161521] border border-black rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00F0FF]"
+                      className="w-full bg-[#FAF6E8] border-2 border-black rounded-xl px-3 py-2 text-xs font-mono-code font-bold text-black focus:outline-none"
                     >
                       {selectedProduct.variants.map((v) => (
                         <option key={v} value={v}>{v}</option>
@@ -872,19 +873,19 @@ export const ProductDetailModal: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-3">
                   
                   {/* Quantity Stepper */}
-                  <div className="flex items-center rounded-lg border-2 border-black bg-[#161521]">
+                  <div className="flex items-center rounded-xl border-2 border-black bg-white shadow-[2px_2px_0px_#000000]">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-3 py-2 text-sm text-zinc-400 hover:text-white"
+                      className="px-3.5 py-2 text-base font-bold text-black hover:bg-[#FAF6E8]"
                     >
                       -
                     </button>
-                    <span className="w-8 text-center font-mono-code text-xs font-bold text-white">
+                    <span className="w-8 text-center font-mono-code text-sm font-bold text-black">
                       {quantity}
                     </span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="px-3 py-2 text-sm text-zinc-400 hover:text-white"
+                      className="px-3.5 py-2 text-base font-bold text-black hover:bg-[#FAF6E8]"
                     >
                       +
                     </button>
@@ -893,9 +894,9 @@ export const ProductDetailModal: React.FC = () => {
                   {/* ADD TO BAG */}
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#00F0FF] py-3.5 px-6 font-display text-base text-black border-2 border-black shadow-[4px_4px_0px_#000000] hover:bg-[#F59E0B] hover:shadow-[6px_6px_0px_#000000] transition-all"
+                    className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#FFE600] py-3.5 px-6 font-display text-lg text-black border-3 border-black shadow-[4px_4px_0px_#000000] hover:bg-[#FF2A2A] hover:text-white hover:shadow-[6px_6px_0px_#000000] transition-all"
                   >
-                    <ShoppingBag className="h-4 w-4" />
+                    <ShoppingBag className="h-5 w-5" />
                     <span>ADD TO UTILITY BELT</span>
                   </button>
 
@@ -904,8 +905,8 @@ export const ProductDetailModal: React.FC = () => {
                     onClick={(e) => toggleWishlist(selectedProduct.id, e)}
                     className={`flex h-12 w-12 items-center justify-center rounded-xl border-2 border-black transition-colors ${
                       isFavorited
-                        ? 'bg-[#FF0055] text-white'
-                        : 'bg-[#161521] text-zinc-300 hover:text-[#FF0055]'
+                        ? 'bg-[#FF2A2A] text-white shadow-sm'
+                        : 'bg-white text-black hover:bg-[#FFE600]'
                     }`}
                     title={isFavorited ? 'Remove from Wishlist' : 'Add to Wishlist'}
                   >
@@ -914,12 +915,12 @@ export const ProductDetailModal: React.FC = () => {
                 </div>
 
                 {/* Shipping & Return Micro-info */}
-                <div className="flex items-center justify-between text-[11px] font-mono-code text-zinc-400 pt-2">
+                <div className="flex items-center justify-between text-[11px] font-mono-code font-bold text-black/70 pt-2 border-t border-black/20">
                   <span className="flex items-center gap-1">
-                    <Truck className="h-3.5 w-3.5 text-[#00F0FF]" />
-                    <span>Instant Teleport Dispatch Available</span>
+                    <Truck className="h-4 w-4 text-[#FF2A2A]" />
+                    <span>Speedy Teleport or Supersonic Mail Dispatch</span>
                   </span>
-                  <span>30-Day Astral Containment Guarantee</span>
+                  <span>100% Comic Money-Back Guarantee</span>
                 </div>
               </div>
 

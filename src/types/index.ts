@@ -55,6 +55,17 @@ export interface Address {
   isSecretHideout: boolean;
 }
 
+export interface MascotCompanion {
+  id: string;
+  name: string;
+  title: string;
+  species: string;
+  avatarEmoji: string;
+  perk: string;
+  greeting: string;
+  tips: string[];
+}
+
 export interface UserProfile {
   heroAlias: string;
   secretIdentity: string;
@@ -63,6 +74,7 @@ export interface UserProfile {
   isGoogleLinked: boolean;
   mode: 'hero' | 'villain';
   powerLevelScore: number;
+  powerLevelRank: 'Mundane' | 'Trainee' | 'Heroic Junior' | 'Gentle Legend' | 'Cosmic Friend';
   equippedPowers: string[]; // product IDs
   savedAddresses: Address[];
   giftCardBalance: number;

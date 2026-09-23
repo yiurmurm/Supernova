@@ -5,9 +5,6 @@ import {
   Trash2, 
   ShoppingBag, 
   ArrowRight, 
-  Sparkles, 
-  Tag, 
-  ShieldCheck,
   Zap
 } from 'lucide-react';
 
@@ -51,54 +48,54 @@ export const UtilityBeltCart: React.FC = () => {
   const finalTotal = Math.max(0, cartSubtotal - discountAmount);
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/75 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm">
       
       {/* Drawer Panel */}
-      <div className="relative w-full max-w-md bg-[#0B0A10] h-full flex flex-col border-l-4 border-black shadow-2xl">
+      <div className="relative w-full max-w-md bg-[#FFFDF0] h-full flex flex-col border-l-4 border-black shadow-[ -8px_0px_0px_#000000]">
         
         {/* Drawer Header */}
-        <div className="p-5 border-b-2 border-black bg-[#161521] flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#00F0FF] text-black border-2 border-black shadow-[2px_2px_0px_#000000]">
+        <div className="p-5 border-b-3 border-black bg-[#FFE600] flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black border-2 border-black shadow-[2px_2px_0px_#000000]">
               <ShoppingBag className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="font-display text-xl text-white tracking-wider">
-                UTILITY BELT LOADOUT
+              <h3 className="font-display text-2xl text-black tracking-wide leading-none">
+                HERO UTILITY BELT
               </h3>
-              <p className="text-[10px] font-mono-code text-zinc-400">
-                TACTICAL GEAR CONTAINER // {cartCount} {cartCount === 1 ? 'SLOT' : 'SLOTS'}
+              <p className="text-[10px] font-mono-code font-bold text-black/80 mt-1">
+                EQUIPPED INVENTORY // {cartCount} {cartCount === 1 ? 'HOLSTER SLOT' : 'HOLSTER SLOTS'}
               </p>
             </div>
           </div>
 
           <button
             onClick={() => setIsCartOpen(false)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#2A2938] text-zinc-400 hover:text-white hover:bg-[#2A2938]"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-black bg-white text-black hover:bg-[#FF2A2A] hover:text-white transition-colors"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Dynamic Capacity Percentage Meter */}
-        <div className="bg-[#161521] px-5 py-3 border-b border-[#2A2938]">
-          <div className="flex items-center justify-between text-xs font-mono-code mb-1.5">
-            <span className="text-zinc-300 flex items-center gap-1">
-              <Zap className="h-3 w-3 text-[#00F0FF]" />
-              <span>UTILITY BELT CAPACITY:</span>
+        <div className="bg-[#FAF6E8] px-5 py-3 border-b-2 border-black">
+          <div className="flex items-center justify-between text-xs font-mono-code font-bold mb-1.5">
+            <span className="text-black flex items-center gap-1">
+              <Zap className="h-3.5 w-3.5 text-[#FF2A2A] fill-current" />
+              <span>BELT WEIGHT CAPACITY:</span>
             </span>
-            <span className={`font-bold ${utilityBeltCapacity > 85 ? 'text-[#FF0055]' : 'text-[#00F0FF]'}`}>
+            <span className={`font-black ${utilityBeltCapacity > 85 ? 'text-[#FF2A2A]' : 'text-black'}`}>
               {utilityBeltCapacity}% FULL
             </span>
           </div>
-          <div className="h-2 w-full bg-[#0B0A10] rounded-full overflow-hidden border border-black">
+          <div className="h-2.5 w-full bg-white rounded-full overflow-hidden border border-black">
             <div
               className={`h-full transition-all duration-300 ${
                 utilityBeltCapacity > 85
-                  ? 'bg-[#FF0055]'
+                  ? 'bg-[#FF2A2A]'
                   : utilityBeltCapacity > 50
-                  ? 'bg-[#F59E0B]'
-                  : 'bg-[#00F0FF]'
+                  ? 'bg-[#FFE600]'
+                  : 'bg-[#00D06C]'
               }`}
               style={{ width: `${utilityBeltCapacity}%` }}
             />
@@ -109,24 +106,26 @@ export const UtilityBeltCart: React.FC = () => {
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {cart.length === 0 ? (
             <div className="py-20 text-center">
-              <ShoppingBag className="mx-auto h-12 w-12 text-zinc-600 mb-3" />
-              <div className="font-display text-xl text-white">
-                YOUR UTILITY BELT IS EMPTY
+              <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-white border-3 border-black shadow-[4px_4px_0px_#000000] mb-3">
+                <ShoppingBag className="h-8 w-8 text-[#FF2A2A]" />
               </div>
-              <p className="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">
-                No superhuman abilities or artifacts currently slotted into your active holster.
+              <div className="font-display text-2xl text-black">
+                YOUR UTILITY BELT IS EMPTY!
+              </div>
+              <p className="text-xs font-mono-code font-bold text-black/70 mt-1 max-w-xs mx-auto">
+                No superhuman abilities or artifacts currently slotted into your active belt holsters.
               </p>
             </div>
           ) : (
             cart.map((item) => (
               <div
                 key={`${item.product.id}-${item.selectedVariant || 'default'}`}
-                className="relative rounded-xl border-2 border-black bg-[#161521] p-3 shadow-[3px_3px_0px_#000000] flex gap-3"
+                className="relative rounded-2xl border-3 border-black bg-white p-3.5 shadow-[4px_4px_0px_#000000] flex gap-3"
               >
                 {/* Item Thumbnail */}
                 <div 
                   onClick={() => setSelectedProduct(item.product)}
-                  className="relative h-20 w-20 shrink-0 cursor-pointer overflow-hidden rounded-lg bg-black border border-black"
+                  className="relative h-20 w-20 shrink-0 cursor-pointer overflow-hidden rounded-xl bg-black border-2 border-black"
                 >
                   <img
                     src={item.product.image}
@@ -139,54 +138,54 @@ export const UtilityBeltCart: React.FC = () => {
                 {/* Item Details */}
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="text-[10px] font-mono-code text-[#00F0FF] uppercase">
+                    <div className="text-[10px] font-mono-code font-bold text-[#FF2A2A] uppercase">
                       {item.product.categoryLabel}
                     </div>
                     <h4 
                       onClick={() => setSelectedProduct(item.product)}
-                      className="font-display text-base text-white hover:text-[#00F0FF] cursor-pointer tracking-wide truncate max-w-[190px]"
+                      className="font-display text-lg text-black hover:text-[#FF2A2A] cursor-pointer tracking-wide truncate max-w-[190px] leading-tight"
                     >
                       {item.product.name}
                     </h4>
                     {item.selectedVariant && (
-                      <div className="text-[10px] font-mono-code text-zinc-400 truncate max-w-[190px]">
+                      <div className="text-[10px] font-mono-code text-black/60 truncate max-w-[190px]">
                         {item.selectedVariant}
                       </div>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between mt-2 pt-1 border-t border-[#2A2938]">
+                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-black/20">
                     {/* Stepper */}
-                    <div className="flex items-center rounded border border-black bg-[#0B0A10]">
+                    <div className="flex items-center rounded-lg border-2 border-black bg-[#FAF6E8]">
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                        className="px-2 py-0.5 text-xs text-zinc-400 hover:text-white"
+                        className="px-2 py-0.5 text-xs font-bold text-black hover:bg-black hover:text-white"
                       >
                         -
                       </button>
-                      <span className="w-6 text-center font-mono-code text-xs text-white">
+                      <span className="w-6 text-center font-mono-code text-xs font-bold text-black">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                        className="px-2 py-0.5 text-xs text-zinc-400 hover:text-white"
+                        className="px-2 py-0.5 text-xs font-bold text-black hover:bg-black hover:text-white"
                       >
                         +
                       </button>
                     </div>
 
                     {/* Price */}
-                    <div className="font-mono-code text-sm font-bold text-[#F59E0B]">
+                    <div className="font-mono-code text-base font-black text-black">
                       ${item.product.price * item.quantity}
                     </div>
 
                     {/* Remove */}
                     <button
                       onClick={() => removeFromCart(item.product.id)}
-                      className="text-zinc-500 hover:text-[#FF0055] p-1"
+                      className="text-black/60 hover:text-[#FF2A2A] p-1"
                       title="Remove item"
                     >
-                      <Trash2 className="h-3.5 w-3.5" />
+                      <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
@@ -197,61 +196,61 @@ export const UtilityBeltCart: React.FC = () => {
 
         {/* Promo Code & Checkout Footer */}
         {cart.length > 0 && (
-          <div className="p-5 border-t-2 border-black bg-[#161521] space-y-4">
+          <div className="p-5 border-t-3 border-black bg-white space-y-4">
             
             {/* Promo Code Input */}
             <form onSubmit={handleApplyCoupon} className="space-y-1">
-              <div className="flex gap-2">
+              <div className="flex gap-2 font-mono-code font-bold">
                 <input
                   type="text"
-                  placeholder="Promo Code (HERO2026 / SUPERNOVA)"
+                  placeholder="Coupon Code (HERO2026 / COMIC10)"
                   value={couponInput}
                   onChange={(e) => setCouponInput(e.target.value)}
-                  className="flex-1 bg-[#0B0A10] border border-[#2A2938] rounded-lg px-3 py-1.5 text-xs text-white uppercase placeholder-zinc-500 focus:outline-none focus:border-[#00F0FF]"
+                  className="flex-1 bg-[#FAF6E8] border-2 border-black rounded-xl px-3 py-1.5 text-xs text-black uppercase placeholder-black/50 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="bg-[#2A2938] hover:bg-[#00F0FF] hover:text-black text-white font-mono-code text-xs px-3 py-1.5 rounded-lg border border-black transition-colors"
+                  className="bg-[#FFE600] hover:bg-black hover:text-white text-black font-display text-xs px-3.5 py-1.5 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000000] transition-colors"
                 >
                   APPLY
                 </button>
               </div>
               {couponFeedback && (
-                <div className="text-[10px] font-mono-code text-[#00F0FF]">
+                <div className="text-[11px] font-mono-code font-bold text-[#FF2A2A]">
                   {couponFeedback}
                 </div>
               )}
             </form>
 
             {/* Calculations */}
-            <div className="space-y-1 text-xs font-mono-code border-t border-[#2A2938] pt-2">
-              <div className="flex justify-between text-zinc-400">
+            <div className="space-y-1 text-xs font-mono-code font-bold border-t-2 border-black pt-2 text-black">
+              <div className="flex justify-between text-black/70">
                 <span>SUBTOTAL:</span>
                 <span>${cartSubtotal}</span>
               </div>
               {discountAmount > 0 && (
-                <div className="flex justify-between text-[#10B981]">
-                  <span>PROMO CODE [{appliedCoupon}]:</span>
+                <div className="flex justify-between text-[#0066FF]">
+                  <span>DISCOUNT [{appliedCoupon}]:</span>
                   <span>-${discountAmount}</span>
                 </div>
               )}
-              <div className="flex justify-between text-zinc-400">
+              <div className="flex justify-between text-black/70">
                 <span>TELEPORT DISPATCH:</span>
-                <span className="text-[#00F0FF]">COMPLIMENTARY</span>
+                <span className="text-[#00D06C]">FREE SPECIAL ISSUE</span>
               </div>
-              <div className="flex justify-between text-base font-bold text-white pt-2 border-t border-[#2A2938]">
+              <div className="flex justify-between text-base font-black text-black pt-2 border-t-2 border-black">
                 <span>TOTAL:</span>
-                <span className="text-[#F59E0B] font-mono-code text-lg">${finalTotal}</span>
+                <span className="bg-[#FFE600] px-2 py-0.5 rounded border border-black font-mono-code text-xl font-black">${finalTotal}</span>
               </div>
             </div>
 
             {/* Checkout Action Button */}
             <button
               onClick={handleCheckout}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#00F0FF] py-3.5 font-display text-base text-black border-2 border-black shadow-[4px_4px_0px_#000000] hover:bg-[#F59E0B] hover:shadow-[6px_6px_0px_#000000] transition-all"
+              className="w-full flex items-center justify-center gap-2 rounded-2xl bg-[#FFE600] py-3.5 font-display text-lg text-black border-3 border-black shadow-[4px_4px_0px_#000000] hover:bg-[#FF2A2A] hover:text-white hover:shadow-[6px_6px_0px_#000000] transition-all cursor-pointer"
             >
-              <span>TELEPORT CHECKOUT</span>
-              <ArrowRight className="h-4 w-4" />
+              <span>PROCEED TO TELEPORT CHECKOUT</span>
+              <ArrowRight className="h-5 w-5" />
             </button>
           </div>
         )}

@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   X, 
-  HelpCircle, 
   Sparkles, 
   Send, 
   ChevronDown, 
   ChevronUp, 
   Search, 
-  CheckCircle2,
-  AlertTriangle
+  CheckCircle2
 } from 'lucide-react';
 
 export const SupportCenterModal: React.FC = () => {
@@ -101,59 +99,59 @@ export const SupportCenterModal: React.FC = () => {
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto">
       
-      <div className="relative w-full max-w-3xl rounded-2xl border-4 border-black bg-[#0B0A10] p-6 sm:p-8 shadow-[10px_10px_0px_#000000,14px_14px_0px_#FF0055] my-auto">
+      <div className="relative w-full max-w-3xl rounded-3xl border-4 border-black bg-white p-6 sm:p-8 shadow-[10px_10px_0px_#000000] my-auto">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b-2 border-black pb-4 mb-6">
+        <div className="flex items-center justify-between border-b-3 border-black pb-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FF0055] text-white border-2 border-black shadow-[2px_2px_0px_#000000]">
-              <Sparkles className="h-5 w-5" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFE600] text-black border-3 border-black shadow-[3px_3px_0px_#000000]">
+              <Sparkles className="h-6 w-6 text-[#FF2A2A] fill-current" />
             </div>
             <div>
-              <h3 className="font-display text-2xl text-white tracking-wide">
-                ASK THE SUPPORT WITCH & ORACLE
+              <h3 className="font-display text-3xl text-black tracking-wide leading-none">
+                SUPPORT WITCH & HERO ORACLE
               </h3>
-              <p className="text-xs font-mono-code text-zinc-400">
-                CITADEL INTERACTIVE RESOLUTION WIZARD & KNOWLEDGE BASE
+              <p className="text-xs font-mono-code font-bold text-black/70 mt-1">
+                HERO TELEGRAPH, KNOWLEDGE ARCHIVES & APOTHECARY HELPLINE
               </p>
             </div>
           </div>
 
           <button
             onClick={() => setIsHelpOpen(false)}
-            className="flex h-8 w-8 items-center justify-center rounded border border-[#2A2938] text-zinc-400 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-black bg-[#FAF6E8] text-black hover:bg-[#FF2A2A] hover:text-white transition-colors"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 border-b border-[#2A2938] pb-3 mb-6 text-xs font-display">
+        <div className="flex items-center gap-2 border-b-2 border-black pb-3 mb-6 text-xs font-display">
           <button
             onClick={() => setActiveTab('wizard')}
-            className={`px-4 py-2 rounded-lg border-2 border-black transition-all ${
-              activeTab === 'wizard' ? 'bg-[#FF0055] text-white shadow-[2px_2px_0px_#000000]' : 'bg-[#161521] text-zinc-300'
+            className={`px-4 py-2 rounded-xl border-2 border-black transition-all cursor-pointer ${
+              activeTab === 'wizard' ? 'bg-[#FFE600] text-black shadow-[2px_2px_0px_#000000]' : 'bg-[#FAF6E8] text-black/80 hover:bg-white'
             }`}
           >
-            ★ INTERACTIVE WIZARD
+            ★ CONSULTATION WIZARD
           </button>
           <button
             onClick={() => setActiveTab('faq')}
-            className={`px-4 py-2 rounded-lg border-2 border-black transition-all ${
-              activeTab === 'faq' ? 'bg-[#FF0055] text-white shadow-[2px_2px_0px_#000000]' : 'bg-[#161521] text-zinc-300'
+            className={`px-4 py-2 rounded-xl border-2 border-black transition-all cursor-pointer ${
+              activeTab === 'faq' ? 'bg-[#FFE600] text-black shadow-[2px_2px_0px_#000000]' : 'bg-[#FAF6E8] text-black/80 hover:bg-white'
             }`}
           >
             GRIMOIRE FAQ ({faqs.length})
           </button>
           <button
             onClick={() => setActiveTab('tickets')}
-            className={`px-4 py-2 rounded-lg border-2 border-black transition-all ${
-              activeTab === 'tickets' ? 'bg-[#FF0055] text-white shadow-[2px_2px_0px_#000000]' : 'bg-[#161521] text-zinc-300'
+            className={`px-4 py-2 rounded-xl border-2 border-black transition-all cursor-pointer ${
+              activeTab === 'tickets' ? 'bg-[#FFE600] text-black shadow-[2px_2px_0px_#000000]' : 'bg-[#FAF6E8] text-black/80 hover:bg-white'
             }`}
           >
-            ACTIVE MISSIVES ({supportTickets.length})
+            MY MISSIVES ({supportTickets.length})
           </button>
         </div>
 
@@ -162,35 +160,35 @@ export const SupportCenterModal: React.FC = () => {
           <div className="space-y-6">
             
             {latestResolution ? (
-              <div className="rounded-xl border-2 border-black bg-[#161521] p-6 shadow-[4px_4px_0px_#000000] text-center space-y-4">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#10B981]/20 border border-[#10B981] text-[#10B981]">
-                  <CheckCircle2 className="h-6 w-6" />
+              <div className="rounded-2xl border-3 border-black bg-[#FAF6E8] p-6 shadow-[4px_4px_0px_#000000] text-center space-y-4">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#00D06C] border-2 border-black text-black shadow-[2px_2px_0px_#000000]">
+                  <CheckCircle2 className="h-8 w-8 text-black" />
                 </div>
                 <div>
-                  <div className="text-xs font-mono-code text-[#00F0FF]">
+                  <div className="text-xs font-mono-code font-bold text-[#FF2A2A]">
                     CASE TRANSMISSION: {latestResolution.id}
                   </div>
-                  <h4 className="font-display text-2xl text-white mt-1">
-                    THE WITCH ORACLE HAS SPOKEN
+                  <h4 className="font-display text-3xl text-black mt-1">
+                    THE WITCH ORACLE HAS DECREED
                   </h4>
                 </div>
-                <div className="rounded-lg bg-[#0B0A10] border border-[#2A2938] p-4 text-xs font-mono-code text-zinc-200 leading-relaxed text-left">
+                <div className="rounded-xl bg-white border-2 border-black p-4 text-xs font-mono-code font-bold text-black leading-relaxed text-left shadow-[2px_2px_0px_#000000]">
                   🔮 {latestResolution.advice}
                 </div>
                 <button
                   onClick={() => setLatestResolution(null)}
-                  className="rounded-lg bg-[#00F0FF] text-black font-display text-xs px-5 py-2.5 border border-black shadow-[2px_2px_0px_#000000]"
+                  className="rounded-xl bg-[#FFE600] text-black font-display text-xs px-6 py-3 border-2 border-black shadow-[2px_2px_0px_#000000] hover:bg-[#FF2A2A] hover:text-white cursor-pointer"
                 >
                   START ANOTHER CONSULTATION
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleWizardSubmit} className="space-y-4">
+              <form onSubmit={handleWizardSubmit} className="space-y-4 font-mono-code font-bold">
                 
                 {/* Step 1: Category selection */}
                 <div>
-                  <label className="block text-xs font-mono-code text-[#00F0FF] mb-2">
-                    STEP 1: WHAT ISSUE CAN THE WITCH DIVINE FOR YOU?
+                  <label className="block text-xs text-black mb-2">
+                    STEP 1: SELECT YOUR TOPIC FOR THE ORACLE
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {categories.map((cat) => (
@@ -201,10 +199,10 @@ export const SupportCenterModal: React.FC = () => {
                           setSelectedCategory(cat);
                           triggerSoundEffect('CLICK!');
                         }}
-                        className={`p-2 rounded-lg text-xs font-mono-code border transition-all text-left truncate ${
+                        className={`p-2.5 rounded-xl text-xs font-mono-code font-bold border-2 transition-all text-left truncate cursor-pointer ${
                           selectedCategory === cat
-                            ? 'bg-[#FF0055] text-white border-black shadow-[2px_2px_0px_#000000] font-bold'
-                            : 'bg-[#161521] text-zinc-400 border-[#2A2938] hover:text-white'
+                            ? 'bg-[#FFE600] text-black border-black shadow-[2px_2px_0px_#000000]'
+                            : 'bg-[#FAF6E8] text-black/80 border-black/30 hover:border-black'
                         }`}
                       >
                         {cat}
@@ -216,13 +214,13 @@ export const SupportCenterModal: React.FC = () => {
                 {/* Step 2: Contextual Details */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div>
-                    <label className="block text-xs font-mono-code text-zinc-400 mb-1">
-                      LINKED TELEPORT ORDER REF
+                    <label className="block text-xs text-black mb-1">
+                      LINKED TELEPORT DOSSIER REF
                     </label>
                     <select
                       value={selectedOrderId}
                       onChange={(e) => setSelectedOrderId(e.target.value)}
-                      className="w-full bg-[#161521] border border-[#2A2938] rounded-lg px-3 py-2 text-xs text-white font-mono-code"
+                      className="w-full bg-[#FAF6E8] border-2 border-black rounded-xl px-3 py-2 text-xs text-black font-mono-code font-bold"
                     >
                       {orders.map(o => (
                         <option key={o.id} value={o.id}>{o.id} ({o.date})</option>
@@ -232,38 +230,38 @@ export const SupportCenterModal: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono-code text-zinc-400 mb-1">
+                    <label className="block text-xs text-black mb-1">
                       BRIEF SUBJECT / PHENOMENON
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. Teleport portal frequency calibration"
+                      placeholder="e.g. Teleport portal calibration"
                       value={ticketSubject}
                       onChange={(e) => setTicketSubject(e.target.value)}
-                      className="w-full bg-[#161521] border border-[#2A2938] rounded-lg px-3 py-2 text-xs text-white"
+                      className="w-full bg-[#FAF6E8] border-2 border-black rounded-xl px-3 py-2 text-xs text-black"
                     />
                   </div>
                 </div>
 
                 {/* Step 3: Message / Description */}
                 <div>
-                  <label className="block text-xs font-mono-code text-zinc-400 mb-1">
+                  <label className="block text-xs text-black mb-1">
                     EXPLAIN THE SITUATION TO THE WITCH
                   </label>
                   <textarea
                     required
                     rows={4}
-                    placeholder="Describe your question or difficulty with this superpower..."
+                    placeholder="Describe your question or anomaly with this superpower..."
                     value={ticketMessage}
                     onChange={(e) => setTicketMessage(e.target.value)}
-                    className="w-full bg-[#161521] border border-[#2A2938] rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-[#FAF6E8] border-2 border-black rounded-xl px-3 py-2 text-xs text-black"
                   />
                 </div>
 
                 <div className="flex justify-end pt-2">
                   <button
                     type="submit"
-                    className="flex items-center gap-2 rounded-xl bg-[#FF0055] px-6 py-3 font-display text-sm text-white border-2 border-black shadow-[3px_3px_0px_#000000] hover:bg-[#FF0033]"
+                    className="flex items-center gap-2 rounded-2xl bg-[#FFE600] px-6 py-3 font-display text-base text-black border-3 border-black shadow-[3px_3px_0px_#000000] hover:bg-[#FF2A2A] hover:text-white transition-colors cursor-pointer"
                   >
                     <Send className="h-4 w-4" />
                     <span>CONSULT THE WITCH ORACLE</span>
@@ -280,34 +278,34 @@ export const SupportCenterModal: React.FC = () => {
           <div className="space-y-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
+              <Search className="absolute left-3.5 top-3 h-4 w-4 text-black/60" />
               <input
                 type="text"
                 placeholder="Search the Ancient Grimoire FAQ..."
                 value={faqSearch}
                 onChange={(e) => setFaqSearch(e.target.value)}
-                className="w-full bg-[#161521] border border-[#2A2938] rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-500"
+                className="w-full bg-[#FAF6E8] border-2 border-black rounded-xl pl-10 pr-3 py-2.5 text-xs font-mono-code font-bold text-black placeholder-black/50"
               />
             </div>
 
             {/* Accordion List */}
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {filteredFaqs.map((faq, idx) => {
                 const isOpen = openFaqIndex === idx;
                 return (
                   <div
                     key={idx}
-                    className="rounded-xl border border-black bg-[#161521] overflow-hidden shadow-[2px_2px_0px_#000000]"
+                    className="rounded-2xl border-2 border-black bg-white overflow-hidden shadow-[2px_2px_0px_#000000]"
                   >
                     <button
                       onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                      className="w-full p-3.5 text-left flex items-center justify-between font-display text-sm text-white hover:text-[#00F0FF] transition-colors"
+                      className="w-full p-4 text-left flex items-center justify-between font-display text-base text-black hover:text-[#FF2A2A] transition-colors cursor-pointer"
                     >
                       <span>{faq.q}</span>
-                      {isOpen ? <ChevronUp className="h-4 w-4 text-[#00F0FF]" /> : <ChevronDown className="h-4 w-4 text-zinc-400" />}
+                      {isOpen ? <ChevronUp className="h-5 w-5 text-black" /> : <ChevronDown className="h-5 w-5 text-black" />}
                     </button>
                     {isOpen && (
-                      <div className="px-3.5 pb-3.5 text-xs text-zinc-300 leading-relaxed border-t border-[#2A2938] pt-2">
+                      <div className="px-4 pb-4 text-xs font-medium text-black/80 leading-relaxed border-t-2 border-black bg-[#FAF6E8] pt-3">
                         {faq.a}
                       </div>
                     )}
@@ -324,21 +322,21 @@ export const SupportCenterModal: React.FC = () => {
             {supportTickets.map((t) => (
               <div
                 key={t.id}
-                className="rounded-xl border border-black bg-[#161521] p-4 shadow-[2px_2px_0px_#000000] space-y-2"
+                className="rounded-2xl border-2 border-black bg-[#FAF6E8] p-4 shadow-[2px_2px_0px_#000000] space-y-2"
               >
                 <div className="flex items-center justify-between">
-                  <div className="font-mono-code text-xs font-bold text-[#00F0FF]">
+                  <div className="font-mono-code text-xs font-black text-black">
                     {t.id} · {t.category}
                   </div>
-                  <span className="text-[10px] font-mono-code bg-[#10B981]/20 text-[#10B981] px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-mono-code font-bold bg-[#00D06C] text-black px-2 py-0.5 rounded border border-black">
                     {t.status}
                   </span>
                 </div>
-                <div className="font-display text-base text-white">{t.subject}</div>
-                <div className="text-xs text-zinc-400">{t.message}</div>
+                <div className="font-display text-lg text-black">{t.subject}</div>
+                <div className="text-xs text-black/80 font-medium">{t.message}</div>
                 {t.witchAdvice && (
-                  <div className="mt-2 bg-[#0B0A10] p-2.5 rounded border border-[#2A2938] text-[11px] font-mono-code text-[#F59E0B]">
-                    🔮 Oracle Response: {t.witchAdvice}
+                  <div className="mt-2 bg-white p-3 rounded-xl border border-black text-[11px] font-mono-code font-bold text-[#FF2A2A]">
+                    🔮 Oracle Decreed: {t.witchAdvice}
                   </div>
                 )}
               </div>

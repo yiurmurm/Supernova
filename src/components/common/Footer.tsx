@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Zap, Send, ShieldCheck, Sparkles, Instagram, Music2, Bookmark } from 'lucide-react';
+import { Zap, Send, ShieldCheck, Sparkles, Heart, Coffee, MapPin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const { setActiveTab, setIsHelpOpen, triggerSoundEffect } = useApp();
@@ -11,183 +11,165 @@ export const Footer: React.FC = () => {
     e.preventDefault();
     if (!email) return;
     setIsSubscribed(true);
-    triggerSoundEffect('DISPATCH SUBSCRIBED! 🚀');
+    triggerSoundEffect('DISPATCH SUBSCRIBED! ✦', undefined, undefined, '#4A90E2');
     setEmail('');
   };
 
   return (
-    <footer className="relative border-t-4 border-black bg-[#0B0A10] pt-16 pb-12 halftone-bg text-zinc-300">
+    <footer className="relative border-t-2 border-[#2F3E46] bg-[#F5F3E8] pt-14 pb-12 halftone-bg text-[#2F3E46]">
       
-      {/* Comic Halftone Accent Header Strip */}
-      <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#00F0FF] via-[#FF0055] to-[#F59E0B]" />
+      {/* Top Gentle Accent Strip */}
+      <div className="absolute top-0 left-0 right-0 h-2 bg-[#4A90E2]/40 border-b border-[#2F3E46]/20" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         
-        {/* Main Grid: Z-Pattern Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#2A2938]">
+        {/* Main Grid: Rounded Comic Panels */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b-2 border-[#2F3E46]/20">
           
           {/* Brand & Manifesto */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded bg-[#00F0FF] text-black font-display text-xl border-2 border-black shadow-[2px_2px_0px_#FFFFFF]">
-                <Zap className="h-5 w-5 fill-current" />
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFC800] text-[#2F3E46] border-2 border-[#2F3E46] shadow-[2px_2px_0px_#2F3E46]">
+                <Zap className="h-6 w-6 fill-current" />
               </div>
-              <span className="font-display text-2xl tracking-wider text-white">
-                SUPRANOVA
-              </span>
+              <div>
+                <span className="font-stability font-extrabold text-2xl tracking-tight text-[#2F3E46] block leading-none">
+                  SUPER POWER LABS
+                </span>
+                <span className="text-[11px] font-clean text-[#5C676D]">
+                  Everyday power, made simple & gentle
+                </span>
+              </div>
             </div>
-            <p className="text-sm text-zinc-400 max-w-sm leading-relaxed">
-              SUPER POWERS IN REAL LIFE.<br />
-              <span className="text-[#00F0FF] font-medium">“Everyday magic, bottled, worn, and summoned.”</span><br />
-              Synthesizing classified gear, metaphysical elixirs, and reality-warping eyewear since Year 3042.
+            
+            <p className="text-xs sm:text-sm font-clean text-[#5C676D] max-w-sm leading-relaxed bg-white p-4 rounded-2xl border-2 border-[#2F3E46] shadow-[3px_3px_0px_#2F3E46]">
+              Cozy, certified abilities bottled, worn, and summoned with gentle care. Certified soft on the eyes, friendly for everyday life, and safe around house plants.
             </p>
 
             {/* Newsletter Dispatch */}
-            <div className="pt-2">
-              <div className="text-xs font-mono-code text-[#F59E0B] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <Sparkles className="h-3.5 w-3.5 text-[#F59E0B]" />
-                Join The Nova Corps Dispatch
+            <div className="pt-1">
+              <div className="text-xs font-stability font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-[#2F3E46]">
+                <Heart className="h-3.5 w-3.5 text-[#4A90E2] fill-current" />
+                <span>Join the Cozy Dispatch Missive</span>
               </div>
               {isSubscribed ? (
-                <div className="text-xs font-mono-code text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/30 p-2 rounded">
-                  ✓ Transceiver Linked: Welcome to the Vanguard, Operative.
+                <div className="text-xs text-[#2F3E46] bg-[#EBF3FC] border-2 border-[#4A90E2] p-3 rounded-xl font-clean shadow-[2px_2px_0px_#4A90E2]">
+                  ✓ Dispatch Connected: Welcome to the Super Power Labs neighborhood!
                 </div>
               ) : (
                 <form onSubmit={handleSubscribe} className="flex gap-2">
                   <input
                     type="email"
-                    placeholder="agent.secret@domain.com"
+                    placeholder="friend.alias@tea.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="flex-1 bg-[#161521] border border-[#2A2938] rounded-md px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#00F0FF]"
+                    className="flex-1 bg-white border-2 border-[#2F3E46] rounded-xl px-3 py-2 text-xs text-[#2F3E46] placeholder-[#5C676D]/60 focus:outline-none"
                   />
                   <button
                     type="submit"
-                    className="bg-[#00F0FF] text-black font-display px-4 py-2 text-sm rounded-md border-2 border-black hover:bg-[#F59E0B] transition-colors flex items-center gap-1"
+                    className="bg-[#FFC800] text-[#2F3E46] font-stability font-bold px-4 py-2 text-xs rounded-xl border-2 border-[#2F3E46] shadow-[2px_2px_0px_#2F3E46] hover:bg-[#4A90E2] hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <span>ENLIST</span>
-                    <Send className="h-3.5 w-3.5" />
+                    <Send className="h-3 w-3" />
                   </button>
                 </form>
               )}
             </div>
           </div>
 
-          {/* Column 1: Navigation */}
-          <div>
-            <h4 className="font-display text-lg tracking-wider text-white mb-4">
-              ARSENAL
+          {/* Navigation Columns */}
+          <div className="space-y-3 font-clean">
+            <h4 className="font-stability font-bold text-xs uppercase tracking-wider text-[#2F3E46]">
+              Apothecary Lines
             </h4>
-            <ul className="space-y-2 text-xs font-medium">
+            <ul className="space-y-2 text-xs text-[#5C676D]">
               <li>
-                <button onClick={() => setActiveTab('shop')} className="hover:text-[#00F0FF] transition-colors">
-                  Shop All Powers
+                <button onClick={() => setActiveTab('shop')} className="hover:text-[#4A90E2] hover:underline cursor-pointer">
+                  Hand-Sketched Amulets
                 </button>
               </li>
               <li>
-                <button onClick={() => setActiveTab('bestsellers')} className="hover:text-[#00F0FF] transition-colors">
-                  Bestseller Artifacts
+                <button onClick={() => setActiveTab('shop')} className="hover:text-[#4A90E2] hover:underline cursor-pointer">
+                  Warm Reading Spectacles
                 </button>
               </li>
               <li>
-                <button onClick={() => setActiveTab('new-arrivals')} className="hover:text-[#00F0FF] transition-colors">
-                  New Arrival Serums
+                <button onClick={() => setActiveTab('shop')} className="hover:text-[#4A90E2] hover:underline cursor-pointer">
+                  Honeyed Elixir Bottles
                 </button>
               </li>
               <li>
-                <button onClick={() => setActiveTab('quiz')} className="text-[#F59E0B] hover:underline font-semibold flex items-center gap-1">
-                  <span>★ Power Quiz</span>
+                <button onClick={() => setActiveTab('shop')} className="hover:text-[#4A90E2] hover:underline cursor-pointer">
+                  Pocket Bio-Familiars
                 </button>
-              </li>
-              <li>
-                <span className="text-zinc-500">Gift Cards (Available in Dossier)</span>
               </li>
             </ul>
           </div>
 
-          {/* Column 2: Tactical Support */}
-          <div>
-            <h4 className="font-display text-lg tracking-wider text-white mb-4">
-              SANCTUARY
+          <div className="space-y-3 font-clean">
+            <h4 className="font-stability font-bold text-xs uppercase tracking-wider text-[#2F3E46]">
+              Cozy Features
             </h4>
-            <ul className="space-y-2 text-xs font-medium">
+            <ul className="space-y-2 text-xs text-[#5C676D]">
               <li>
-                <button onClick={() => setIsHelpOpen(true)} className="hover:text-[#00F0FF] transition-colors">
-                  Help Center & Oracle
+                <button onClick={() => setActiveTab('delivery')} className="hover:text-[#4A90E2] hover:underline cursor-pointer flex items-center gap-1">
+                  <MapPin className="h-3 w-3 text-[#FFC800]" />
+                  <span>Local Scooter Map</span>
                 </button>
               </li>
               <li>
-                <button onClick={() => setIsHelpOpen(true)} className="hover:text-[#00F0FF] transition-colors">
-                  Track Teleport Dispatch
+                <button onClick={() => setActiveTab('quiz')} className="hover:text-[#4A90E2] hover:underline cursor-pointer">
+                  Whimsical Aptitude Quiz
                 </button>
               </li>
               <li>
-                <button onClick={() => setIsHelpOpen(true)} className="hover:text-[#00F0FF] transition-colors">
-                  Returns & Unbinding Ritual
+                <button onClick={() => setActiveTab('orders')} className="hover:text-[#4A90E2] hover:underline cursor-pointer">
+                  Track Delivery Progress
                 </button>
               </li>
               <li>
-                <button onClick={() => setIsHelpOpen(true)} className="hover:text-[#00F0FF] transition-colors">
-                  Dimensional Shipping Rates
+                <button onClick={() => setIsHelpOpen(true)} className="hover:text-[#4A90E2] hover:underline cursor-pointer">
+                  Apothecary FAQ & Oracle
                 </button>
-              </li>
-              <li>
-                <span className="text-zinc-500">Subterranean Delivery Protocol</span>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Legal & Comms */}
-          <div>
-            <h4 className="font-display text-lg tracking-wider text-white mb-4">
-              COMM CHANNELS
+          <div className="space-y-3 font-clean">
+            <h4 className="font-stability font-bold text-xs uppercase tracking-wider text-[#2F3E46]">
+              Peace of Mind
             </h4>
-            <div className="flex gap-3 mb-4">
-              <a
-                href="#instagram"
-                onClick={(e) => { e.preventDefault(); triggerSoundEffect('POP!'); }}
-                className="flex h-8 w-8 items-center justify-center rounded border border-[#2A2938] bg-[#161521] hover:text-[#00F0FF] hover:border-[#00F0FF] transition-colors"
-                title="Instagram"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a
-                href="#tiktok"
-                onClick={(e) => { e.preventDefault(); triggerSoundEffect('POP!'); }}
-                className="flex h-8 w-8 items-center justify-center rounded border border-[#2A2938] bg-[#161521] hover:text-[#FF0055] hover:border-[#FF0055] transition-colors"
-                title="TikTok"
-              >
-                <Music2 className="h-4 w-4" />
-              </a>
-              <a
-                href="#pinterest"
-                onClick={(e) => { e.preventDefault(); triggerSoundEffect('POP!'); }}
-                className="flex h-8 w-8 items-center justify-center rounded border border-[#2A2938] bg-[#161521] hover:text-[#F59E0B] hover:border-[#F59E0B] transition-colors"
-                title="Pinterest"
-              >
-                <Bookmark className="h-4 w-4" />
-              </a>
+            <div className="space-y-2 text-xs text-[#5C676D]">
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="h-4 w-4 text-[#4A90E2]" />
+                <span>Zero radiation guaranteed</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Coffee className="h-4 w-4 text-[#FFC800]" />
+                <span>Tea-safe packaging</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Sparkles className="h-4 w-4 text-[#4A90E2]" />
+                <span>Approved Comics Code</span>
+              </div>
             </div>
-            <div className="text-[11px] font-mono-code text-zinc-400">
-              CITADEL HQ: Sector 7, Vault 42<br />
-              SECURE FREQUENCY: 144.82 MHz
-            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Rights Bar */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-clean text-[#5C676D]">
+          <div>
+            © 2026 SUPER POWER LABS INC. · All powers certified gentle & easy-on-the-eyes.
+          </div>
+          <div className="flex items-center gap-3">
+            <span>Volume 1, Issue #1</span>
+            <span>•</span>
+            <span className="font-handwritten text-sm text-[#2F3E46]">&ldquo;Stay cozy, heroes!&rdquo;</span>
           </div>
         </div>
 
-        {/* Bottom Safety Disclaimer & Copyright */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <div className="flex items-center gap-2 text-zinc-400">
-            <ShieldCheck className="h-4 w-4 text-[#00F0FF]" />
-            <span>
-              <strong>FICTIONAL ENTERTAINMENT DISCLAIMER:</strong> For superhero/villain roleplay & creative storytelling use only. All potions, sprays, and superpowers are fictional artifacts.
-            </span>
-          </div>
-          <div className="font-mono-code text-[11px] text-zinc-500 text-center md:text-right">
-            © 3042 SUPRANOVA INC. ALL DIMENSIONAL RIGHTS RESERVED.
-          </div>
-        </div>
       </div>
     </footer>
   );
